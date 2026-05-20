@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=500">
-<title>투자 분석 A안 v6 — Mobile Demo</title>
+<meta name="viewport" content="width=1000">
+<title>투자 분석 A·B안 — Mobile Demo</title>
 <style>
 @font-face{font-family:'Pretendard';src:url('./fonts/Pretendard-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Pretendard';src:url('./fonts/Pretendard-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
@@ -255,13 +255,54 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 .sig-rel-price{font-size:12px;color:var(--t2);margin-top:1px;font-variant-numeric:tabular-nums}
 .sig-rel-delta{font-size:13px;font-weight:700;flex-shrink:0;font-variant-numeric:tabular-nums}
 .sig-rel-delta.up{color:var(--brand-t)}.sig-rel-delta.down{color:var(--danger)}
+
+/* ═══ B안 ═══════════════════════════════════════════════════ */
+.total-wrap{padding:16px;background:var(--bg);border-radius:14px;margin:6px 16px;
+  box-shadow:0 1px 4px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.06)}
+.total-amt{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.total-change{display:flex;gap:6px;margin-top:4px}
+.total-delta{font-size:14px;font-weight:700;color:var(--brand-t);font-variant-numeric:tabular-nums}
+.total-rate{font-size:14px;font-weight:700;color:var(--brand-t);font-variant-numeric:tabular-nums}
+.compact-row{display:flex;align-items:center;gap:10px;padding:14px 16px;
+  background:var(--bg);border-radius:12px;margin:4px 16px;cursor:pointer;
+  box-shadow:0 1px 4px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.06)}
+.compact-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.compact-text{flex:1;min-width:0;font-size:13px;font-weight:500;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.compact-arr{width:14px;height:14px;flex-shrink:0;opacity:.35}
+.hold-tabs{display:flex;gap:4px;padding:0 0 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.hold-tab{height:30px;padding:0 12px;font-size:13px;font-weight:500;color:var(--t2);
+  background:var(--bg-el);border:0;border-radius:40px;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0}
+.hold-tab.active{background:var(--bg-inv);color:var(--ti);font-weight:700}
+.hold-item{padding:12px 0}
+.hold-item+.hold-item{border-top:1px solid var(--border)}
+.hold-top{display:flex;align-items:center;gap:10px}
+.hold-thumb{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.hold-info{flex:1;min-width:0}
+.hold-name{font-size:15px;font-weight:600;color:var(--t1)}
+.hold-sub{font-size:12px;color:var(--t2);margin-top:2px;font-variant-numeric:tabular-nums}
+.hold-val{text-align:right;flex-shrink:0}
+.hold-amt{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.hold-rate{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+.hold-rate.up{color:var(--brand-t)}.hold-rate.down{color:var(--danger)}
+.hold-news{margin-top:8px;padding:10px 12px;background:var(--bg-el);border-radius:8px;
+  font-size:13px;color:var(--t1);line-height:1.4;border-left:3px solid var(--brand)}
+.hold-expand{display:flex;align-items:center;justify-content:center;gap:4px;
+  padding:14px 0 4px;font-size:14px;font-weight:700;color:var(--t2);cursor:pointer;
+  border:0;background:0;width:100%;font-family:inherit}
+.acct-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)}
+.acct-item:last-child{border-bottom:0}
+.acct-name{font-size:14px;font-weight:500;color:var(--t1)}
+.acct-val{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
 </style>
 </head>
 
 <body>
 
+<div style="display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap;justify-content:center">
+
 <div>
-<div class="phone-label">투자 분석 A안</div>
+<div class="phone-label">A안 · 투자 분석</div>
 <div class="phone" id="phone1">
 
   <div class="status-bar"><img src="./assets/system/IcStatusBar-black.svg" width="393" height="44" alt="status"></div>
@@ -816,6 +857,227 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 </div>
 </div>
 
+<div>
+<div class="phone-label">B안 · 내 투자</div>
+<div class="phone" id="phone2">
+
+  <div class="status-bar"><img src="./assets/system/IcStatusBar-black.svg" width="393" height="44" alt="status"></div>
+
+  <div class="hdr-brand">
+    <img class="logo" src="./assets/system/IcNewNpayLogo.svg" height="22" alt="Npay">
+    <span class="service">내 투자</span>
+    <span class="spacer"></span>
+    <img class="ico" src="./assets/ds-icons/IcBellStroke.svg" width="24" height="24" alt="알림">
+  </div>
+
+  <div class="content">
+    <div class="content-inner">
+
+      <!-- 총 투자금액 -->
+      <div class="total-wrap">
+        <div class="total-amt">23,456,789원</div>
+        <div class="total-change">
+          <span class="total-delta">+1,284,500원</span>
+          <span class="total-rate">(+8.42%)</span>
+        </div>
+      </div>
+
+      <!-- 계좌별 조회 -->
+      <div class="compact-row" onclick="openModal('bModalAcct')">
+        <div class="compact-icon" style="background:var(--bg-gray)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="2" stroke="#767678" stroke-width="1.4"/><path d="M4 4V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1" stroke="#767678" stroke-width="1.4"/></svg>
+        </div>
+        <span class="compact-text">계좌별 조회 · 3개 계좌</span>
+        <svg class="compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- 포트폴리오 요약 -->
+      <div class="compact-row" onclick="openModal('bModalPort')">
+        <div class="compact-icon" style="background:var(--purple-s)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="#5B5BD6" stroke-width="2"/><path d="M8 3a5 5 0 0 1 0 10" fill="#5B5BD6" opacity=".3"/></svg>
+        </div>
+        <span class="compact-text">포트폴리오 · 주식 45% ETF 25% 펀드 15%</span>
+        <svg class="compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- 수익 진단 요약 -->
+      <div class="compact-row" onclick="openModal('bModalDiag')">
+        <div class="compact-icon" style="background:var(--brand-f)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 7l3 3 5-6" stroke="#09AB49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="compact-text">수익 진단 · 또래 상위 28% · 이번 달 +8.42%</span>
+        <svg class="compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- 보유종목 -->
+      <div class="card" style="margin-top:10px">
+        <div class="sec-hdr" style="padding-bottom:10px">
+          <span class="sec-ttl">보유종목</span>
+          <button class="sec-link" type="button">총 12종목
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="hold-tabs" id="bHoldTabs">
+          <button class="hold-tab active" type="button" data-cat="all">전체</button>
+          <button class="hold-tab" type="button" data-cat="stock">주식</button>
+          <button class="hold-tab" type="button" data-cat="unlisted">비상장</button>
+          <button class="hold-tab" type="button" data-cat="fund">펀드</button>
+          <button class="hold-tab" type="button" data-cat="etf">ETF</button>
+          <button class="hold-tab" type="button" data-cat="crypto">가상자산</button>
+        </div>
+
+        <div id="bHoldList"></div>
+
+        <button class="hold-expand" id="bHoldExpand" type="button" onclick="bToggleExpand()">
+          <span id="bExpandLabel">더 보기</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path id="bExpandChev" d="M3 5L7 9L11 5" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- 주요 시그널 -->
+      <div class="card">
+        <div class="sec-hdr"><span class="sec-ttl">주요 시그널</span></div>
+        <div class="sig-inner">
+          <div class="sig-card" onclick="openBSigModal(10)">
+            <div class="sig-thumb" style="background:linear-gradient(135deg,#2B5EA7,#4AADE8)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+            <div class="sig-body">
+              <div class="sig-text"><b>62%</b>는 기준금리가 동결될 것이라 생각해요</div>
+              <div class="sig-badges">
+                <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>채권</span>
+                <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>금리</span>
+              </div>
+            </div>
+          </div>
+          <div class="sig-card" onclick="openBSigModal(11)">
+            <div class="sig-thumb" style="background:linear-gradient(135deg,#159F76,#2BC8A0)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 11l4 4 8-8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h7v7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="sig-body">
+              <div class="sig-text">반도체 업종 수출이 전년 대비 <b>45% 증가</b>했어요</div>
+              <div class="sig-badges">
+                <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
+                <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>IT</span>
+              </div>
+            </div>
+          </div>
+          <div class="sig-card" onclick="openBSigModal(12)">
+            <div class="sig-thumb" style="background:linear-gradient(135deg,#627EEA,#8FA8FF)"><span style="color:#fff;font-size:13px;font-weight:700">Ξ</span></div>
+            <div class="sig-body">
+              <div class="sig-text">이더리움 ETF 순유입 <b>5일 연속 증가</b></div>
+              <div class="sig-badges">
+                <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>가상자산</span>
+                <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>ETF</span>
+              </div>
+            </div>
+          </div>
+          <div class="sig-card" onclick="openBSigModal(14)">
+            <div class="sig-thumb" style="background:linear-gradient(135deg,#CC0000,#EE3344)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="sig-body">
+              <div class="sig-text">미중 관세 갈등 재점화 우려</div>
+              <div class="sig-badges">
+                <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>수출주</span>
+                <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sig-more">
+          시그널 전체보기
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- B MODAL: 계좌별 -->
+  <div class="modal-overlay" id="bModalAcct" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl">계좌별 금액</div>
+      <div class="modal-total"><span class="mt-lbl">총 투자금액</span><span class="mt-val">23,456,789원</span></div>
+      <div class="acct-item"><div><div class="acct-name">네이버증권 위탁계좌</div><div style="font-size:12px;color:var(--t2);margin-top:2px">주식 · ETF</div></div><div class="acct-val">14,993,500원</div></div>
+      <div class="acct-item"><div><div class="acct-name">ISA 계좌</div><div style="font-size:12px;color:var(--t2);margin-top:2px">펀드 · ETF</div></div><div class="acct-val">5,256,518원</div></div>
+      <div class="acct-item"><div><div class="acct-name">연금저축 계좌</div><div style="font-size:12px;color:var(--t2);margin-top:2px">펀드</div></div><div class="acct-val">1,578,771원</div></div>
+      <div class="acct-item"><div><div class="acct-name">가상자산 계좌</div><div style="font-size:12px;color:var(--t2);margin-top:2px">업비트</div></div><div class="acct-val">1,628,000원</div></div>
+    </div>
+  </div>
+
+  <!-- B MODAL: 포트폴리오 -->
+  <div class="modal-overlay" id="bModalPort" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl">포트폴리오</div>
+      <div class="donut-wrap">
+        <div class="donut" style="background:conic-gradient(var(--ch1) 0deg 162deg,var(--ch2) 162deg 252deg,var(--ch3) 252deg 306deg,var(--ch4) 306deg 342deg,var(--ch5) 342deg 360deg)"></div>
+        <div class="port-legend">
+          <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch1)"></span><span class="port-leg-name">주식</span><span class="port-leg-val">45%</span></div>
+          <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch2)"></span><span class="port-leg-name">ETF</span><span class="port-leg-val">25%</span></div>
+          <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch3)"></span><span class="port-leg-name">펀드</span><span class="port-leg-val">15%</span></div>
+          <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch4)"></span><span class="port-leg-name">채권</span><span class="port-leg-val">10%</span></div>
+          <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch5)"></span><span class="port-leg-name">가상자산</span><span class="port-leg-val">5%</span></div>
+        </div>
+      </div>
+      <div class="port-advice">
+        <div class="port-advice-txt">주식 비중이 45%로 집중되어 있어요. 채권이나 ETF로 분산하면 안정적인 수익을 기대할 수 있어요</div>
+        <button class="port-advice-link" type="button">고수들의 포트폴리오 엿보기
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- B MODAL: 수익 진단 -->
+  <div class="modal-overlay" id="bModalDiag" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl">수익 진단</div>
+      <div class="diag-hdr" style="padding-bottom:16px">
+        <span class="sec-ttl" style="font-size:16px">이번 달 수익</span>
+        <div class="diag-hdr-val">
+          <span class="diag-hdr-amt">+1,284,500원</span>
+          <span class="diag-hdr-rate">(+8.42%)</span>
+        </div>
+      </div>
+      <div class="diag-stats" style="margin-bottom:16px">
+        <div class="diag-stat">
+          <div class="diag-stat-label">또래비교</div>
+          <div class="diag-stat-val">상위 28%</div>
+        </div>
+        <div class="diag-stat">
+          <div class="diag-stat-label">배당수익</div>
+          <div class="diag-stat-val">320,000원</div>
+        </div>
+        <div class="diag-stat">
+          <div class="diag-stat-label">실현수익</div>
+          <div class="diag-stat-val">1,250,000원</div>
+        </div>
+      </div>
+      <div class="diag-reason">
+        <div class="diag-reason-text">한 달간 반도체·2차전지 테마 상승이 수익을 견인했어요. 같은 기간 코스피는 +2.3%였어요</div>
+        <button class="diag-reason-btn" type="button">
+          <span>반도체·2차전지 테마주 보기</span>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- B MODAL: 시그널 상세 -->
+  <div class="modal-overlay" id="bModalSignal" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl" id="bSigModalTitle"></div>
+      <div class="modal-sub sig-modal-body" id="bSigModalBody"></div>
+      <div class="sig-rel-label">관련 종목</div>
+      <div id="bSigModalStocks"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div>
+
 <script>
 /* ═══ Chart data per period ════════════════════════════════════ */
 const chartData={
@@ -947,6 +1209,79 @@ document.addEventListener('touchend',e=>{
   if(!document.getElementById('chartWrap').contains(e.target))document.getElementById('chartTip').classList.remove('show');
   if(!document.getElementById('peerChartWrap').contains(e.target))peerTip.classList.remove('show');
 });
+
+
+/* ═══ B안 ═════════════════════════════════════════════════════ */
+const bHoldings=[
+  {cat:'stock',name:'삼성전자',init:'삼',bg:'#1428A0',shares:'50주',price:'72,300원',amt:'3,615,000원',rate:'+12.5%',up:true,news:'AI 반도체 수주 1조원 돌파, HBM3E 양산 본격화'},
+  {cat:'stock',name:'SK하이닉스',init:'SK',bg:'#EA002C',sz:9,shares:'20주',price:'178,500원',amt:'3,570,000원',rate:'+8.2%',up:true,news:''},
+  {cat:'stock',name:'네이버',init:'네',bg:'#159F76',shares:'15주',price:'198,500원',amt:'2,977,500원',rate:'+15.3%',up:true,news:'2분기 광고 매출 서프라이즈 전망'},
+  {cat:'stock',name:'현대차',init:'현',bg:'#003DA5',shares:'10주',price:'225,000원',amt:'2,250,000원',rate:'+6.8%',up:true,news:''},
+  {cat:'stock',name:'카카오',init:'카',bg:'#FA8836',shares:'30주',price:'52,700원',amt:'1,581,000원',rate:'-3.2%',up:false,news:''},
+  {cat:'unlisted',name:'두나무',init:'두',bg:'#093687',shares:'20주',price:'250,000원',amt:'5,000,000원',rate:'+8.5%',up:true,news:'업비트 거래량 역대 최고 경신, IPO 기대감 상승'},
+  {cat:'fund',name:'삼성 글로벌 AI 펀드',init:'삼',bg:'#1428A0',shares:'',price:'',amt:'2,518,518원',rate:'+11.2%',up:true,news:''},
+  {cat:'fund',name:'미래에셋 인컴플러스',init:'미',bg:'#0066CC',shares:'',price:'',amt:'1,000,000원',rate:'+3.8%',up:true,news:''},
+  {cat:'etf',name:'KODEX 200',init:'K',bg:'#5B5BD6',shares:'100좌',price:'35,180원',amt:'3,518,000원',rate:'+5.4%',up:true,news:''},
+  {cat:'etf',name:'TIGER 미국배당다우존스',init:'T',bg:'#FA8836',shares:'50좌',price:'12,400원',amt:'620,000원',rate:'+7.1%',up:true,news:'미국 배당주 3주 연속 상승세'},
+  {cat:'crypto',name:'비트코인',init:'₿',bg:'#F7931A',shares:'0.012 BTC',price:'$97,250',amt:'1,400,000원',rate:'-2.8%',up:false,news:'10만 달러 돌파 후 차익 실현 매물로 조정 국면'},
+  {cat:'crypto',name:'이더리움',init:'Ξ',bg:'#627EEA',shares:'0.5 ETH',price:'$3,820',amt:'228,000원',rate:'+3.2%',up:true,news:''}
+];
+let bCat='all',bExpanded=false;
+
+function bRenderHold(){
+  const list=document.getElementById('bHoldList');
+  const items=bCat==='all'?bHoldings:bHoldings.filter(h=>h.cat===bCat);
+  const limit=bExpanded?items.length:Math.min(6,items.length);
+  const hidden=items.length-limit;
+  let html='';
+  items.slice(0,limit).forEach(h=>{
+    const sub=h.shares?(h.shares+(h.price?' · 현재가 '+h.price:'')):'';
+    html+=`<div class="hold-item">
+      <div class="hold-top">
+        <div class="hold-thumb" style="background:${h.bg};${h.sz?'font-size:'+h.sz+'px':''}">${h.init}</div>
+        <div class="hold-info">
+          <div class="hold-name">${h.name}</div>
+          ${sub?`<div class="hold-sub">${sub}</div>`:''}
+        </div>
+        <div class="hold-val">
+          <div class="hold-amt">${h.amt}</div>
+          <div class="hold-rate ${h.up?'up':'down'}">${h.rate}</div>
+        </div>
+      </div>
+      ${h.news?`<div class="hold-news">${h.news}</div>`:''}
+    </div>`;
+  });
+  list.innerHTML=html;
+  const btn=document.getElementById('bHoldExpand');
+  if(hidden>0&&!bExpanded){
+    btn.style.display='flex';
+    document.getElementById('bExpandLabel').textContent=hidden+'개 더 보기';
+    document.getElementById('bExpandChev').setAttribute('d','M3 5L7 9L11 5');
+  } else if(bExpanded&&items.length>6){
+    btn.style.display='flex';
+    document.getElementById('bExpandLabel').textContent='접기';
+    document.getElementById('bExpandChev').setAttribute('d','M3 9L7 5L11 9');
+  } else {
+    btn.style.display='none';
+  }
+}
+function bToggleExpand(){bExpanded=!bExpanded;bRenderHold()}
+document.querySelectorAll('#bHoldTabs .hold-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#bHoldTabs .hold-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    bCat=btn.dataset.cat;bExpanded=false;bRenderHold();
+  });
+});
+bRenderHold();
+
+function openBSigModal(idx){
+  const d=sigData[idx];if(!d)return;
+  document.getElementById('bSigModalTitle').textContent=d.title;
+  document.getElementById('bSigModalBody').innerHTML=d.body;
+  document.getElementById('bSigModalStocks').innerHTML=d.stocks.map(s=>`<div class="sig-rel-row"><div class="sig-rel-circle" style="background:${s.bg}">${s.init}</div><div class="sig-rel-info"><div class="sig-rel-name">${s.name}</div><div class="sig-rel-price">${s.price}</div></div><div class="sig-rel-delta ${s.up?'up':'down'}">${s.delta}</div>${chevSvg}</div>`).join('');
+  openModal('bModalSignal');
+}
 </script>
 </body>
 </html>
