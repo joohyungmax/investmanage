@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=1000">
-<title>투자 분석 A·B안 — Mobile Demo</title>
+<meta name="viewport" content="width=1400">
+<title>투자 분석 A·B·C안 — Mobile Demo</title>
 <style>
 @font-face{font-family:'Pretendard';src:url('./fonts/Pretendard-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Pretendard';src:url('./fonts/Pretendard-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
@@ -331,6 +331,49 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 .b-line{height:1px;background:var(--border);margin:0 16px}
 #phone2 .sig-card{background:var(--bg-el)}
 #phone2 .ical-row{background:var(--bg-el)}
+
+/* ═══ C안 ══════════════════════════════════════════════════ */
+/* 내 투자 진단 */
+.c-diag-row{display:flex;align-items:center;gap:10px;padding:14px 0;cursor:pointer}
+.c-diag-row:active{opacity:.7}
+.c-diag-main{flex:1;display:flex;align-items:baseline;gap:8px}
+.c-diag-amt{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.c-diag-rate{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.c-diag-rate.up{color:var(--brand-t)}
+.c-diag-rate.down{color:var(--danger)}
+.c-diag-label{font-size:15px;font-weight:700;color:var(--t1);flex-shrink:0}
+.c-diag-sub{flex:1;text-align:right;font-size:13px;font-weight:500;color:var(--t2);min-width:0}
+.c-line{height:1px;background:var(--border)}
+.c-compact-arr{width:14px;height:14px;flex-shrink:0;opacity:.35}
+
+/* 실시간 투자 현황 */
+.c-live-badge{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--danger)}
+.c-live-dot{width:6px;height:6px;border-radius:50%;background:var(--danger);animation:cPulse 1.5s infinite}
+@keyframes cPulse{0%,100%{opacity:1}50%{opacity:.3}}
+.c-rank-wrap{transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);border-bottom:1px solid var(--border);position:relative}
+.c-rank-wrap:last-child{border-bottom:0}
+.c-rank-top{display:flex;align-items:center;gap:8px;padding:12px 0}
+.c-rank-num{width:20px;font-size:16px;font-weight:700;color:var(--t1);text-align:center;flex-shrink:0;font-variant-numeric:tabular-nums}
+.c-rank-change{width:14px;font-size:9px;flex-shrink:0;text-align:center;font-weight:700;transition:color .3s}
+.c-rank-change.up{color:var(--brand-t)}
+.c-rank-change.down{color:var(--danger)}
+.c-rank-change.none{color:var(--t3)}
+.c-rank-glow{animation:cGlow .8s ease}
+@keyframes cGlow{0%{background:var(--brand-f)}100%{background:transparent}}
+#phone3 .hold-tabs{margin-bottom:4px}
+#phone3 .hold-thumb{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+#phone3 .hold-info{flex:1;min-width:0}
+#phone3 .hold-name{font-size:14px;font-weight:700}
+#phone3 .hold-sub{font-size:12px;color:var(--t3)}
+#phone3 .hold-val{text-align:right;flex-shrink:0}
+#phone3 .hold-amt{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+#phone3 .hold-rate{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+#phone3 .hold-rate.up{color:var(--brand-t)}
+#phone3 .hold-rate.down{color:var(--danger)}
+#phone3 .hold-news{display:flex;align-items:center;gap:6px;padding:6px 10px;margin:-2px 0 4px;background:var(--bg-el);border-radius:8px;font-size:13px;color:var(--t2);line-height:1.35;cursor:pointer}
+#phone3 .hold-news:active{opacity:.7}
+#phone3 .sig-card{background:var(--bg-el)}
+#phone3 .ical-row{background:var(--bg-el)}
 </style>
 </head>
 
@@ -1212,6 +1255,396 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 </div>
 </div>
 
+
+<div>
+<div class="phone-label">C안 · 투자 관리</div>
+<div class="phone" id="phone3">
+
+  <div class="status-bar"><img src="./assets/system/IcStatusBar-black.svg" width="393" height="44" alt="status"></div>
+
+  <div class="hdr-brand">
+    <img class="logo" src="./assets/system/IcNewNpayLogo.svg" height="22" alt="Npay">
+    <span class="service">투자관리</span>
+    <span class="spacer"></span>
+    <span style="font-size:14px;font-weight:700;color:var(--brand-t);cursor:pointer">내 투자</span>
+  </div>
+
+  <div class="content">
+    <div class="content-inner">
+
+      <!-- ① 금융 일정 배너 -->
+      <div class="card cal-banner" onclick="this.classList.toggle('open')">
+        <div class="cal-top">
+          <div class="cal-roller">
+            <div class="cal-roller-track">
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#1428A0">삼</span>
+                <span class="cr-text">삼성전자 배당락일</span>
+                <span class="dday">D-3</span>
+              </div>
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#555">A</span>
+                <span class="cr-text">애플 실적발표</span>
+                <span class="dday">D-7</span>
+              </div>
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#EA002C;font-size:10px">SK</span>
+                <span class="cr-text">SK하이닉스 배당지급일</span>
+                <span class="dday">D-12</span>
+              </div>
+            </div>
+          </div>
+          <img class="arr" src="./assets/ds-icons/chevron-down.svg" width="14" height="14" alt="">
+        </div>
+        <div class="cal-list">
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#1428A0;width:24px;height:24px;font-size:10px">삼</span>
+            <span class="ci-body">삼성전자 · 배당락일</span>
+            <span class="dday">D-3</span>
+          </div>
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#555;width:24px;height:24px;font-size:10px">A</span>
+            <span class="ci-body">애플 · 실적발표</span>
+            <span class="dday">D-7</span>
+          </div>
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#EA002C;width:24px;height:24px;font-size:9px">SK</span>
+            <span class="ci-body">SK하이닉스 · 배당지급일</span>
+            <span class="dday">D-12</span>
+          </div>
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#CC0000;width:24px;height:24px;font-size:10px">T</span>
+            <span class="ci-body">테슬라 · 실적발표</span>
+            <span class="dday">D-15</span>
+          </div>
+          <span class="cal-more" onclick="event.stopPropagation()">
+            전체 금융 일정 보기
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- ② AI 투자 인사이트 -->
+      <div class="card card-ai">
+        <div class="ai-label"><span class="ai-star">✦</span> 투자 인사이트</div>
+        <div class="ai-diag">이번 달 수익률이 또래 평균보다 <b>3.6%p 앞서</b>고 있어요. <b>반도체·IT 비중 확대</b>가 수익을 견인했어요. 다만 다음 주 CPI 발표 전후 변동성에 대비해 <b>현금 비중 5~10%</b> 확보를 추천해요</div>
+        <button class="ai-action" type="button">
+          어떤 주식 매도하는게 좋을까?
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#5B5BD6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- ③ 내 투자 진단 (combined card) -->
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-ttl">내 투자 진단</span>
+        </div>
+
+        <!-- 총 투자금액 + 수익률 -->
+        <div class="c-diag-row" onclick="openModal('cModalAcct')">
+          <div class="c-diag-main">
+            <span class="c-diag-amt">23,456,789원</span>
+            <span class="c-diag-rate up">+8.42%</span>
+          </div>
+          <svg class="c-compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="c-line"></div>
+
+        <!-- 포트폴리오 -->
+        <div class="c-diag-row" onclick="openModal('cModalPort')">
+          <span class="c-diag-label">포트폴리오</span>
+          <span class="c-diag-sub">주식 45% · ETF 25% · 펀드 15%</span>
+          <svg class="c-compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="c-line"></div>
+
+        <!-- 수익 진단 -->
+        <div class="c-diag-row" onclick="openModal('cModalDiag')">
+          <span class="c-diag-label">수익 진단</span>
+          <span class="c-diag-sub">또래 상위 28% · +8.42%</span>
+          <svg class="c-compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- ④ 실시간 투자 현황 -->
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-ttl">실시간 투자 현황</span>
+          <span class="c-live-badge"><span class="c-live-dot"></span>LIVE</span>
+        </div>
+
+        <div class="hold-tabs" id="cRankTabs">
+          <button class="hold-tab active" data-cat="all">전체</button>
+          <button class="hold-tab" data-cat="stock">주식</button>
+          <button class="hold-tab" data-cat="fund">펀드</button>
+          <button class="hold-tab" data-cat="etf">ETF</button>
+          <button class="hold-tab" data-cat="crypto">가상자산</button>
+        </div>
+
+        <div id="cRankList"></div>
+
+        <div class="sig-more" style="padding-top:10px">
+          내 종목 전체보기
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- ⑤ 시장 트렌드 (A안 카드형) -->
+      <div class="card">
+        <div class="sec-hdr"><span class="sec-ttl">시장 트렌드</span></div>
+
+        <div class="sig-inner">
+            <div class="sig-card" onclick="openCSigModal(10)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#2B5EA7,#4AADE8)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text"><b>62%</b>는 기준금리가 동결될 것이라 생각해요</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>채권</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>금리</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openCSigModal(11)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#159F76,#2BC8A0)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 11l4 4 8-8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h7v7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text">반도체 업종 수출이 전년 대비 <b>45% 증가</b>했어요</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>IT</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openCSigModal(12)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#627EEA,#8FA8FF)"><span style="color:#fff;font-size:13px;font-weight:700">Ξ</span></div>
+              <div class="sig-body">
+                <div class="sig-text">이더리움 ETF 순유입 <b>5일 연속 증가</b></div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>가상자산</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>ETF</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openCSigModal(13)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#333,#555)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 11l4 4 8-8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h7v7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text">비상장 시장 거래 활성화, <b>월 거래액 2조원</b> 돌파</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>비상장</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>프리IPO</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openCSigModal(14)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#CC0000,#EE3344)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text">미중 관세 갈등 재점화 우려</div>
+                <div class="sig-badges">
+                  <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>수출주</span>
+                  <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="sig-more">
+          더보기
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- ⑥ 투자 캘린더 -->
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-ttl">투자 캘린더</span>
+          <button class="sec-link" type="button">
+            전체보기
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">목</div><div class="ical-date-day">22</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-indicator">지표</span>
+            <span class="ical-name">미국 CPI 발표</span>
+          </div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">23</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">삼성전자 배당락일</span>
+          </div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">화</div><div class="ical-date-day">27</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-earnings">실적</span>
+            <span class="ical-name">애플 2Q 실적 발표</span>
+          </div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">수</div><div class="ical-date-day">28</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-ipo">청약</span>
+            <span class="ical-name">에이피알 공모주 청약</span>
+          </div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">30</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">SK하이닉스 배당지급일</span>
+          </div>
+        </div>
+
+        <div class="ical-row" style="margin-bottom:0">
+          <div class="ical-date-box"><div class="ical-date-dow">월</div><div class="ical-date-day">1</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dist">비상장</span>
+            <span class="ical-name">두나무 비상장주식 매칭 마감</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- C MODAL: 계좌 상세 -->
+  <div class="modal-overlay" id="cModalAcct" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl">계좌별 투자 현황</div>
+      <div class="modal-sub">
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-size:13px;color:var(--t3)">N페이 증권</div>
+            <div style="font-size:16px;font-weight:700;margin-top:4px">15,234,500원</div>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--brand-t);align-self:center">+12.3%</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-size:13px;color:var(--t3)">미래에셋증권</div>
+            <div style="font-size:16px;font-weight:700;margin-top:4px">5,518,518원</div>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--brand-t);align-self:center">+5.8%</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-size:13px;color:var(--t3)">삼성증권</div>
+            <div style="font-size:16px;font-weight:700;margin-top:4px">1,503,771원</div>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--brand-t);align-self:center">+3.2%</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0">
+          <div>
+            <div style="font-size:13px;color:var(--t3)">업비트</div>
+            <div style="font-size:16px;font-weight:700;margin-top:4px">1,200,000원</div>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--danger);align-self:center">-1.2%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C MODAL: 포트폴리오 상세 -->
+  <div class="modal-overlay" id="cModalPort" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl">포트폴리오 상세</div>
+      <div class="modal-sub">
+        <div style="display:flex;flex-direction:column;gap:12px;padding:8px 0">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--ch1);flex-shrink:0"></span>
+            <span style="flex:1;font-size:14px;font-weight:600">주식</span>
+            <span style="font-size:14px;font-weight:700">10,555,550원</span>
+            <span style="font-size:13px;color:var(--t3)">45%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--ch2);flex-shrink:0"></span>
+            <span style="flex:1;font-size:14px;font-weight:600">ETF</span>
+            <span style="font-size:14px;font-weight:700">5,864,197원</span>
+            <span style="font-size:13px;color:var(--t3)">25%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--ch3);flex-shrink:0"></span>
+            <span style="flex:1;font-size:14px;font-weight:600">펀드</span>
+            <span style="font-size:14px;font-weight:700">3,518,518원</span>
+            <span style="font-size:13px;color:var(--t3)">15%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--ch4);flex-shrink:0"></span>
+            <span style="flex:1;font-size:14px;font-weight:600">채권</span>
+            <span style="font-size:14px;font-weight:700">2,345,679원</span>
+            <span style="font-size:13px;color:var(--t3)">10%</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="width:10px;height:10px;border-radius:50%;background:var(--ch5);flex-shrink:0"></span>
+            <span style="flex:1;font-size:14px;font-weight:600">가상자산</span>
+            <span style="font-size:14px;font-weight:700">1,172,845원</span>
+            <span style="font-size:13px;color:var(--t3)">5%</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:12px 16px;background:var(--bg-el);border-radius:10px;margin-top:8px;font-size:13px;color:var(--t2);line-height:1.5">
+        주식 비중이 45%로 집중되어 있어요. 채권이나 ETF로 분산하면 변동성을 줄이면서 안정적인 수익을 기대할 수 있어요
+      </div>
+    </div>
+  </div>
+
+  <!-- C MODAL: 수익 진단 상세 -->
+  <div class="modal-overlay" id="cModalDiag" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl">수익 진단</div>
+      <div class="modal-sub">
+        <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--border)">
+          <div style="flex:1;text-align:center">
+            <div style="font-size:12px;color:var(--t3)">내 수익률</div>
+            <div style="font-size:20px;font-weight:700;color:var(--brand-t);margin-top:4px">+8.42%</div>
+          </div>
+          <div style="flex:1;text-align:center">
+            <div style="font-size:12px;color:var(--t3)">또래 평균</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">+4.80%</div>
+          </div>
+          <div style="flex:1;text-align:center">
+            <div style="font-size:12px;color:var(--t3)">또래 순위</div>
+            <div style="font-size:20px;font-weight:700;margin-top:4px">상위 28%</div>
+          </div>
+        </div>
+        <div style="padding:12px 0;font-size:14px;color:var(--t2);line-height:1.6">
+          한 달간 반도체·2차전지 테마 상승이 수익을 견인했어요. 같은 기간 코스피는 +2.3%였어요.
+          또래 상위 10%는 평균 <b>+15.3%</b> 수익률을 내고 있어요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C MODAL: 시그널/뉴스 상세 -->
+  <div class="modal-overlay" id="cModalSignal" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl" id="cSigModalTitle"></div>
+      <div class="modal-sub sig-modal-body" id="cSigModalBody"></div>
+      <div class="sig-rel-label">관련 종목</div>
+      <div id="cSigModalStocks"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
 </div>
 
 <script>
@@ -1444,6 +1877,120 @@ function openBSigModal(idx){
   document.getElementById('bSigModalBody').innerHTML=d.body;
   document.getElementById('bSigModalStocks').innerHTML=d.stocks.map(s=>`<div class="sig-rel-row"><div class="sig-rel-circle" style="background:${s.bg}">${s.init}</div><div class="sig-rel-info"><div class="sig-rel-name">${s.name}</div><div class="sig-rel-price">${s.price}</div></div><div class="sig-rel-delta ${s.up?'up':'down'}">${s.delta}</div>${chevSvg}</div>`).join('');
   openModal('bModalSignal');
+}
+
+
+/* ═══ C안 ═════════════════════════════════════════════════════ */
+const cHoldings=[
+  {cat:'stock',name:'네이버',init:'네',bg:'#159F76',shares:'15주',price:'198,500원',amt:'2,977,500원',rate:15.3,rateStr:'+15.3%',up:true,news:'2분기 실적 발표, 광고 매출 서프라이즈 전망',sent:'pos',dday:'D-12'},
+  {cat:'stock',name:'삼성전자',init:'삼',bg:'#1428A0',shares:'50주',price:'72,300원',amt:'3,615,000원',rate:12.5,rateStr:'+12.5%',up:true,news:'AI 반도체 수주 1조원 돌파, HBM3E 양산 본격화',sent:'pos'},
+  {cat:'fund',name:'삼성 글로벌 AI 펀드',init:'삼',bg:'#1428A0',shares:'',price:'',amt:'2,518,518원',rate:11.2,rateStr:'+11.2%',up:true,news:'글로벌 AI 테마 펀드 수익률 상위권',sent:'pos'},
+  {cat:'stock',name:'두나무',init:'두',bg:'#093687',shares:'20주',price:'250,000원',amt:'5,000,000원',rate:8.5,rateStr:'+8.5%',up:true,news:'업비트 거래량 역대 최고, IPO 기대감 상승',sent:'pos'},
+  {cat:'stock',name:'SK하이닉스',init:'SK',bg:'#EA002C',sz:9,shares:'20주',price:'178,500원',amt:'3,570,000원',rate:8.2,rateStr:'+8.2%',up:true,news:'HBM 수율 이슈 — 단기 변동성 확대 우려',sent:'neg'},
+  {cat:'etf',name:'TIGER 미국배당다우존스',init:'T',bg:'#FA8836',shares:'50좌',price:'12,400원',amt:'620,000원',rate:7.1,rateStr:'+7.1%',up:true,news:'미국 배당주 3주 연속 상승세',sent:'pos'},
+  {cat:'etf',name:'KODEX 200',init:'K',bg:'#5B5BD6',shares:'100좌',price:'35,180원',amt:'3,518,000원',rate:5.4,rateStr:'+5.4%',up:true,news:'배당락일',sent:'neu',dday:'D-7'},
+  {cat:'fund',name:'미래에셋 인컴플러스',init:'미',bg:'#0066CC',shares:'',price:'',amt:'1,000,000원',rate:3.8,rateStr:'+3.8%',up:true,news:'안정적 분배금 지급 지속',sent:'pos'},
+  {cat:'crypto',name:'이더리움',init:'Ξ',bg:'#627EEA',shares:'0.5 ETH',price:'$3,820',amt:'228,000원',rate:3.2,rateStr:'+3.2%',up:true,news:'ETF 순유입 5일 연속 증가',sent:'pos'},
+  {cat:'crypto',name:'비트코인',init:'₿',bg:'#F7931A',shares:'0.012 BTC',price:'$97,250',amt:'1,400,000원',rate:-2.8,rateStr:'-2.8%',up:false,news:'폴리마켓: 연내 15만 달러 돌파 확률 42%',sent:'pos'}
+];
+
+let cCat='all';
+const cChevSvg='<svg style="width:14px;height:14px;flex-shrink:0;opacity:.35" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+/* Previous ranks for change indicator */
+let cPrevRanks={};
+
+function cGetFiltered(){
+  let items=cCat==='all'?[...cHoldings]:cHoldings.filter(h=>h.cat===cCat);
+  items.sort((a,b)=>b.rate-a.rate);
+  return items.slice(0,4);
+}
+
+function cRenderRank(){
+  const list=document.getElementById('cRankList');
+  const items=cGetFiltered();
+  let html='';
+  items.forEach((h,idx)=>{
+    const rank=idx+1;
+    const prevRank=cPrevRanks[h.name];
+    let changeClass='none',changeIcon='-';
+    if(prevRank!==undefined&&prevRank!==rank){
+      if(rank<prevRank){changeClass='up';changeIcon='▲';}
+      else{changeClass='down';changeIcon='▼';}
+    }
+    const sub=h.shares?(h.shares+(h.price?' · '+h.price:'')):'';
+    const glowClass=(prevRank!==undefined&&prevRank!==rank)?' c-rank-glow':'';
+    html+=`<div class="c-rank-wrap${glowClass}">
+      <div class="c-rank-top">
+        <span class="c-rank-num">${rank}</span>
+        <span class="c-rank-change ${changeClass}">${changeIcon}</span>
+        <div class="hold-thumb" style="background:${h.bg};${h.sz?'font-size:'+h.sz+'px':''}">${h.init}</div>
+        <div class="hold-info">
+          <div class="hold-name">${h.name}</div>
+          ${sub?`<div class="hold-sub">${sub}</div>`:''}
+        </div>
+        <div class="hold-val">
+          <div class="hold-amt">${h.amt}</div>
+          <div class="hold-rate ${h.up?'up':'down'}">${h.rateStr}</div>
+        </div>
+      </div>
+      ${h.news?`<div class="hold-news" onclick="openCNews('${h.name}')">${h.dday?`<span class="dday" style="flex-shrink:0">${h.dday}</span>`:`<span style="color:${sentColor[h.sent]||'#767678'};flex-shrink:0">✦</span>`}<span style="flex:1">${h.news}</span>${cChevSvg}</div>`:''}
+    </div>`;
+  });
+  list.innerHTML=html;
+  /* Update prev ranks */
+  const newRanks={};
+  items.forEach((h,i)=>{newRanks[h.name]=i+1;});
+  cPrevRanks=newRanks;
+}
+
+/* Tab switching */
+document.querySelectorAll('#cRankTabs .hold-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#cRankTabs .hold-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    cCat=btn.dataset.cat;
+    cPrevRanks={};
+    cRenderRank();
+  });
+});
+
+/* Initial render */
+cRenderRank();
+
+/* Live ranking animation — swap rates periodically */
+setInterval(()=>{
+  const items=cGetFiltered();
+  if(items.length<2)return;
+  /* Pick a random item and jitter its rate */
+  const idx=Math.floor(Math.random()*items.length);
+  const item=items[idx];
+  /* Find it in cHoldings and adjust rate */
+  const orig=cHoldings.find(h=>h.name===item.name);
+  if(!orig)return;
+  const delta=(Math.random()-0.4)*1.2; /* slight bias positive */
+  orig.rate=Math.round((orig.rate+delta)*10)/10;
+  orig.rateStr=(orig.rate>=0?'+':'')+orig.rate.toFixed(1)+'%';
+  orig.up=orig.rate>=0;
+  cRenderRank();
+},3500);
+
+/* C안 hold news modal */
+function openCNews(name){
+  const d=holdNewsData[name];if(!d)return;
+  document.getElementById('cSigModalTitle').textContent=d.title;
+  document.getElementById('cSigModalBody').innerHTML=d.body;
+  document.getElementById('cSigModalStocks').innerHTML=d.stocks.map(s=>`<div class="sig-rel-row"><div class="sig-rel-circle" style="background:${s.bg}">${s.init}</div><div class="sig-rel-info"><div class="sig-rel-name">${s.name}</div><div class="sig-rel-price">${s.price}</div></div><div class="sig-rel-delta ${s.up?'up':'down'}">${s.delta}</div>${chevSvg}</div>`).join('');
+  openModal('cModalSignal');
+}
+
+/* C안 시장 트렌드 시그널 modal */
+function openCSigModal(idx){
+  const d=sigData[idx];if(!d)return;
+  document.getElementById('cSigModalTitle').textContent=d.title;
+  document.getElementById('cSigModalBody').innerHTML=d.body;
+  document.getElementById('cSigModalStocks').innerHTML=d.stocks.map(s=>`<div class="sig-rel-row"><div class="sig-rel-circle" style="background:${s.bg}">${s.init}</div><div class="sig-rel-info"><div class="sig-rel-name">${s.name}</div><div class="sig-rel-price">${s.price}</div></div><div class="sig-rel-delta ${s.up?'up':'down'}">${s.delta}</div>${chevSvg}</div>`).join('');
+  openModal('cModalSignal');
 }
 </script>
 </body>
