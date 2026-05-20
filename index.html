@@ -294,6 +294,33 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 .acct-item:last-child{border-bottom:0}
 .acct-name{font-size:14px;font-weight:500;color:var(--t1)}
 .acct-val{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ═══ B안 v2 ═══════════════════════════════════════════════ */
+.b-total{padding:20px 16px 8px}
+.b-total-top{display:flex;align-items:baseline;justify-content:space-between}
+.acct-link{font-size:13px;font-weight:700;color:var(--t2);cursor:pointer;background:0;border:0;
+  font-family:inherit;display:inline-flex;align-items:center;gap:2px;flex-shrink:0;white-space:nowrap}
+.acct-link svg{width:12px;height:12px;flex-shrink:0;opacity:.5}
+.hold-cat-title{font-size:12px;font-weight:700;color:var(--t2);padding:16px 0 4px;text-transform:uppercase;letter-spacing:.02em}
+.hold-cat-title:first-child{padding-top:4px}
+#phone2 .hold-item{border-top:0 !important;padding:10px 0}
+#phone2 .hold-news{border-left:0}
+.b-section{padding:0 16px;margin-top:20px}
+.b-sec-hdr{display:flex;align-items:center;padding-bottom:10px}
+.b-sec-ttl{font-size:17px;font-weight:700;flex:1;min-width:0}
+.bsig-item{display:flex;align-items:center;gap:10px;padding:13px 0;cursor:pointer}
+.bsig-item+.bsig-item{border-top:1px solid var(--border)}
+.bsig-dot{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;flex-shrink:0}
+.bsig-dot.pos{background:var(--brand-f);color:var(--brand-t)}
+.bsig-dot.neg{background:var(--danger-s);color:var(--danger)}
+.bsig-dot.neu{background:#E4E6EB;color:#666}
+.bsig-dot.cal{background:var(--blue-s);color:var(--blue)}
+.bsig-body{flex:1;min-width:0;font-size:14px;color:var(--t1);line-height:1.45}
+.bsig-body b{font-weight:700}
+.bsig-chev{width:14px;height:14px;flex-shrink:0;opacity:.35}
+.bsig-dday{height:20px;padding:0 7px;font-size:11px;font-weight:700;border-radius:10px;
+  display:inline-flex;align-items:center;background:var(--blue-s);color:var(--blue);flex-shrink:0;letter-spacing:0}
 </style>
 </head>
 
@@ -311,7 +338,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
     <img class="logo" src="./assets/system/IcNewNpayLogo.svg" height="22" alt="Npay">
     <span class="service">투자관리</span>
     <span class="spacer"></span>
-    <img class="ico" src="./assets/ds-icons/IcBellStroke.svg" width="24" height="24" alt="알림">
+    <span style="font-size:14px;font-weight:700;color:var(--brand-t);cursor:pointer">내 투자</span>
   </div>
 
   <div class="content">
@@ -867,7 +894,483 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
     <img class="logo" src="./assets/system/IcNewNpayLogo.svg" height="22" alt="Npay">
     <span class="service">내 투자</span>
     <span class="spacer"></span>
-    <img class="ico" src="./assets/ds-icons/IcBellStroke.svg" width="24" height="24" alt="알림">
+    <span style="font-size:14px;font-weight:700;color:var(--t2);cursor:pointer">자산 연결하기</span>
+  </div>
+
+  <div class="content">
+    <div class="content-inner">
+
+      <!-- ① 총 투자금액 + 계좌 링크 -->
+      <div class="b-total">
+        <div class="b-total-top">
+          <div class="total-amt">23,456,789원</div>
+          <button class="acct-link" type="button" onclick="openModal('bModalAcct')">
+            4개 계좌
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="total-change">
+          <span class="total-delta">+1,284,500원</span>
+          <span class="total-rate">(+8.42%)</span>
+        </div>
+      </div>
+
+      <!-- ② AI 투자 인사이트 -->
+      <div class="card card-ai">
+        <div class="ai-label"><span class="ai-star">✦</span> 투자 인사이트</div>
+        <div class="ai-diag">이번 달 수익률이 또래 평균보다 <b>3.6%p 앞서</b>고 있어요. <b>반도체·IT 비중 확대</b>가 수익을 견인했어요. 다만 다음 주 CPI 발표 전후 변동성에 대비해 <b>현금 비중 5~10%</b> 확보를 추천해요</div>
+        <button class="ai-action" type="button">
+          어떤 주식 매도하는게 좋을까?
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#5B5BD6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- ③ 포트폴리오 요약 -->
+      <div class="compact-row" onclick="openModal('bModalPort')">
+        <div class="compact-icon" style="background:var(--purple-s)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="#5B5BD6" stroke-width="2"/><path d="M8 3a5 5 0 0 1 0 10" fill="#5B5BD6" opacity=".3"/></svg>
+        </div>
+        <span class="compact-text">포트폴리오 · 주식 45% ETF 25% 펀드 15%</span>
+        <svg class="compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- ④ 수익 진단 요약 -->
+      <div class="compact-row" onclick="openModal('bModalDiag')">
+        <div class="compact-icon" style="background:var(--brand-f)">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 7l3 3 5-6" stroke="#09AB49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="compact-text">수익 진단 · 또래 상위 28% · 이번 달 +8.42%</span>
+        <svg class="compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- ⑤ 보유종목 (타이틀 제거, 탭부터) -->
+      <div style="padding:14px 16px 0">
+        <div class="hold-tabs" id="bHoldTabs">
+          <button class="hold-tab active" type="button" data-cat="all">전체</button>
+          <button class="hold-tab" type="button" data-cat="stock">주식</button>
+          <button class="hold-tab" type="button" data-cat="unlisted">비상장</button>
+          <button class="hold-tab" type="button" data-cat="fund">펀드</button>
+          <button class="hold-tab" type="button" data-cat="etf">ETF</button>
+          <button class="hold-tab" type="button" data-cat="crypto">가상자산</button>
+        </div>
+        <div id="bHoldList"></div>
+        <button class="hold-expand" id="bHoldExpand" type="button" onclick="bToggleExpand()">
+          <span id="bExpandLabel">더 보기</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path id="bExpandChev" d="M3 5L7 9L11 5" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- ⑥ 시장 트렌드 -->
+      <div class="b-section">
+        <div class="b-sec-hdr"><span class="b-sec-ttl">시장 트렌드</span></div>
+        <div>
+          <div class="bsig-item" onclick="openBSigModal(11)">
+            <span class="bsig-dot pos">✦</span>
+            <div class="bsig-body">반도체 업종 수출이 전년 대비 <b>45% 증가</b></div>
+            <svg class="bsig-chev" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bsig-item" onclick="openBSigModal(14)">
+            <span class="bsig-dot neg">✦</span>
+            <div class="bsig-body">미중 관세 갈등 재점화 우려</div>
+            <svg class="bsig-chev" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bsig-item bsig-cal-item">
+            <span class="bsig-dot cal"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7h12M5 1v4M11 1v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <div class="bsig-body">삼성전자 배당락일</div>
+            <span class="bsig-dday">D-3</span>
+          </div>
+          <div class="bsig-item" onclick="openBSigModal(12)">
+            <span class="bsig-dot pos">✦</span>
+            <div class="bsig-body">이더리움 ETF 순유입 <b>5일 연속 증가</b></div>
+            <svg class="bsig-chev" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bsig-item" onclick="openBSigModal(10)">
+            <span class="bsig-dot neu">✦</span>
+            <div class="bsig-body"><b>62%</b>는 기준금리가 동결될 것이라 생각해요</div>
+            <svg class="bsig-chev" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bsig-item bsig-cal-item">
+            <span class="bsig-dot cal"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7h12M5 1v4M11 1v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <div class="bsig-body">애플 2Q 실적 발표</div>
+            <span class="bsig-dday">D-7</span>
+          </div>
+          <div class="bsig-item" onclick="openBSigModal(15)">
+            <span class="bsig-dot neu">✦</span>
+            <div class="bsig-body">트럼프 당선 확률 <b>67%</b>로 상승 · 방산주 강세</div>
+            <svg class="bsig-chev" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="bsig-item" onclick="openBSigModal(13)">
+            <span class="bsig-dot pos">✦</span>
+            <div class="bsig-body">비상장 시장 월 거래액 <b>2조원</b> 돌파</div>
+            <svg class="bsig-chev" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="sig-more">
+          더보기
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- ⑦ 투자 캘린더 -->
+      <div class="card" style="margin-top:16px">
+        <div class="sec-hdr">
+          <span class="sec-ttl">투자 캘린더</span>
+          <button class="sec-link" type="button">
+            전체보기
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">목</div><div class="ical-date-day">22</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-indicator">지표</span>
+            <span class="ical-name">미국 CPI 발표</span>
+          </div>
+          <div class="ical-right">둔화 72%</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">23</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">삼성전자 배당락일</span>
+          </div>
+          <div class="ical-right">D-3</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">화</div><div class="ical-date-day">27</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-earnings">실적</span>
+            <span class="ical-name">애플 2Q 실적 발표</span>
+          </div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">수</div><div class="ical-date-day">28</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-ipo">청약</span>
+            <span class="ical-name">에이피알 공모주 청약</span>
+          </div>
+          <div class="ical-right">5/28~29</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">30</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">SK하이닉스 배당지급일</span>
+          </div>
+          <div class="ical-right">D-10</div>
+        </div>
+
+        <div class="ical-row" style="margin-bottom:0">
+          <div class="ical-date-box"><div class="ical-date-dow">월</div><div class="ical-date-day">1</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dist">비상장</span>
+            <span class="ical-name">두나무 비상장주식 매칭 마감</span>
+          </div>
+          <div class="ical-right">D-12</div>
+        </div>
+      </div>
+
+      <!-- ⑥ 투자 캘린더 (ref image style) -->
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-ttl">투자 캘린더</span>
+          <button class="sec-link" type="button">
+            전체보기
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">목</div><div class="ical-date-day">22</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-indicator">지표</span>
+            <span class="ical-name">미국 CPI 발표</span>
+          </div>
+          <div class="ical-right">둔화 72%</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">23</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">삼성전자 배당락일</span>
+          </div>
+          <div class="ical-right">D-3</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">화</div><div class="ical-date-day">27</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-earnings">실적</span>
+            <span class="ical-name">애플 2Q 실적 발표</span>
+          </div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">수</div><div class="ical-date-day">28</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-ipo">청약</span>
+            <span class="ical-name">에이피알 공모주 청약</span>
+          </div>
+          <div class="ical-right">5/28~29</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">30</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">SK하이닉스 배당지급일</span>
+          </div>
+          <div class="ical-right">D-10</div>
+        </div>
+
+        <div class="ical-row" style="margin-bottom:0">
+          <div class="ical-date-box"><div class="ical-date-dow">월</div><div class="ical-date-day">1</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dist">비상장</span>
+            <span class="ical-name">두나무 비상장주식 매칭 마감</span>
+          </div>
+          <div class="ical-right">D-12</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 또래비교 (타이틀 제거, x축 제거, 말풍선만, stats 세로) ═══ -->
+  <div class="modal-overlay" id="modalPeer" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="peer-chart-wrap" id="peerChartWrap">
+        <svg viewBox="0 0 340 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Distribution bars -->
+          <rect x="30" y="105" width="28" height="18" rx="3" fill="#EDEFF2"/>
+          <rect x="62" y="82" width="28" height="41" rx="3" fill="#EDEFF2"/>
+          <rect x="94" y="56" width="28" height="67" rx="3" fill="#EDEFF2"/>
+          <rect x="126" y="32" width="28" height="91" rx="3" fill="#EDEFF2"/>
+          <rect x="158" y="18" width="28" height="105" rx="3" fill="#EDEFF2"/>
+          <rect x="190" y="28" width="28" height="95" rx="3" fill="#EDEFF2"/>
+          <rect x="222" y="48" width="28" height="75" rx="3" fill="#00DE5A" opacity=".2"/>
+          <rect x="254" y="72" width="28" height="51" rx="3" fill="#EDEFF2"/>
+          <rect x="286" y="95" width="28" height="28" rx="3" fill="#EDEFF2"/>
+          <!-- My position dashed line -->
+          <line x1="236" y1="28" x2="236" y2="123" stroke="#00DE5A" stroke-width="2" stroke-dasharray="4 3"/>
+          <!-- Speech bubble -->
+          <rect x="196" y="2" width="80" height="24" rx="12" fill="#00DE5A"/>
+          <polygon points="232,26 236,32 240,26" fill="#00DE5A"/>
+          <text x="236" y="18" fill="#fff" font-size="11" text-anchor="middle" font-weight="700" font-family="Pretendard">나 (상위 28%)</text>
+          <!-- Hover rects -->
+          <rect x="18" y="0" width="36" height="130" fill="transparent" data-peer-idx="0" class="peer-touch"/>
+          <rect x="54" y="0" width="36" height="130" fill="transparent" data-peer-idx="1" class="peer-touch"/>
+          <rect x="86" y="0" width="36" height="130" fill="transparent" data-peer-idx="2" class="peer-touch"/>
+          <rect x="118" y="0" width="36" height="130" fill="transparent" data-peer-idx="3" class="peer-touch"/>
+          <rect x="150" y="0" width="36" height="130" fill="transparent" data-peer-idx="4" class="peer-touch"/>
+          <rect x="182" y="0" width="36" height="130" fill="transparent" data-peer-idx="5" class="peer-touch"/>
+          <rect x="214" y="0" width="36" height="130" fill="transparent" data-peer-idx="6" class="peer-touch"/>
+          <rect x="246" y="0" width="36" height="130" fill="transparent" data-peer-idx="7" class="peer-touch"/>
+          <rect x="278" y="0" width="36" height="130" fill="transparent" data-peer-idx="8" class="peer-touch"/>
+        </svg>
+        <div class="chart-tooltip" id="peerTip" style="top:auto;bottom:20px">
+          <div class="tt-date" id="peerTipTitle"></div>
+          <div id="peerTipBody" style="font-size:12px"></div>
+        </div>
+      </div>
+
+      <!-- Stats: 세로 배치, 박스 없음 -->
+      <div class="peer-info-row">
+        <div class="peer-info-item">
+          <span class="peer-info-label">내 수익률</span>
+          <span class="peer-info-val up">+8.42%</span>
+        </div>
+        <div class="peer-info-item">
+          <span class="peer-info-label">또래 평균 수익률</span>
+          <span class="peer-info-val">+4.8%</span>
+        </div>
+      </div>
+
+      <!-- 넛징 -->
+      <div class="peer-nudge">
+        <div class="peer-nudge-txt">또래 상위 10%는 평균 <b>+15.3%</b> 수익률을 내고 있어요. ETF와 채권 비중을 늘린 게 핵심 차이예요</div>
+        <button class="peer-nudge-btn" type="button">
+          또래 고수 포트폴리오 보기
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#5B5BD6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 배당수익 (타이틀 제거, 넛징→그래프 아래, 누적→리스트 위, 월별 서브타이틀) ═══ -->
+  <div class="modal-overlay" id="modalDividend" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="div-chart-legend">
+        <span class="div-chart-leg"><span class="dcl-box" style="background:var(--brand)"></span>받은 배당</span>
+        <span class="div-chart-leg"><span class="dcl-box" style="background:var(--border-s)"></span>예정 배당</span>
+      </div>
+      <div class="div-chart-wrap">
+        <svg viewBox="0 0 340 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="82" width="20" height="28" rx="3" fill="#00DE5A"/>
+          <rect x="38" y="72" width="20" height="38" rx="3" fill="#00DE5A"/>
+          <rect x="66" y="56" width="20" height="54" rx="3" fill="#00DE5A"/>
+          <rect x="94" y="25" width="20" height="85" rx="3" fill="#00DE5A"/>
+          <rect x="122" y="95" width="20" height="15" rx="3" fill="#00DE5A"/>
+          <rect x="150" y="62" width="20" height="48" rx="3" fill="#C8CACC"/>
+          <rect x="178" y="78" width="20" height="32" rx="3" fill="#C8CACC"/>
+          <rect x="206" y="88" width="20" height="22" rx="3" fill="#C8CACC"/>
+          <rect x="234" y="72" width="20" height="38" rx="3" fill="#C8CACC"/>
+          <rect x="262" y="55" width="20" height="55" rx="3" fill="#C8CACC"/>
+          <rect x="290" y="40" width="20" height="70" rx="3" fill="#C8CACC"/>
+          <rect x="318" y="65" width="20" height="45" rx="3" fill="#C8CACC"/>
+          <text x="20" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">1</text>
+          <text x="48" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">2</text>
+          <text x="76" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">3</text>
+          <text x="104" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">4</text>
+          <text x="132" y="118" fill="#00DE5A" font-size="9" text-anchor="middle" font-weight="700" font-family="Pretendard">5</text>
+          <text x="160" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">6</text>
+          <text x="188" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">7</text>
+          <text x="216" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">8</text>
+          <text x="244" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">9</text>
+          <text x="272" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">10</text>
+          <text x="300" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">11</text>
+          <text x="328" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">12</text>
+        </svg>
+      </div>
+
+      <!-- 넛징 (그래프 바로 아래) -->
+      <div class="div-nudge">
+        <div class="div-nudge-txt">하반기 예상 배당은 <b>약 480,000원</b>이에요. 배당률 높은 종목을 추가하면 연간 배당을 더 늘릴 수 있어요</div>
+        <button class="div-nudge-btn" type="button">
+          고배당 종목 추천 받기
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- 누적 배당 -->
+      <div class="modal-total"><span class="mt-lbl">올해 누적 배당</span><span class="mt-val">320,000원</span></div>
+
+      <div class="modal-month-hdr" style="padding-top:4px">1월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#5B5BD6">K</div><div class="div-info"><div class="div-name">KODEX 배당성장</div></div><div class="div-amt">+45,000원</div></div>
+
+      <div class="modal-month-hdr">2월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#555">A</div><div class="div-info"><div class="div-name">애플</div></div><div class="div-amt">+35,000원</div></div>
+      <div class="div-item"><div class="div-thumb" style="background:#FA8836">T</div><div class="div-info"><div class="div-name">TIGER 미국배당다우존스</div></div><div class="div-amt">+20,000원</div></div>
+
+      <div class="modal-month-hdr">3월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#EA002C"><span style="font-size:9px">SK</span></div><div class="div-info"><div class="div-name">SK하이닉스</div></div><div class="div-amt">+85,000원</div></div>
+
+      <div class="modal-month-hdr">4월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#1428A0">삼</div><div class="div-info"><div class="div-name">삼성전자</div></div><div class="div-amt">+120,000원</div></div>
+      <div class="div-item"><div class="div-thumb" style="background:#003DA5">현</div><div class="div-info"><div class="div-name">현대차</div></div><div class="div-amt">+60,000원</div></div>
+
+      <!-- 배당 예정 -->
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+        <div style="font-size:13px;font-weight:700;color:var(--t2)">배당 예정</div>
+      </div>
+
+      <div class="modal-month-hdr">6월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#5B5BD6">K</div><div class="div-info"><div class="div-name">KODEX 200</div><div class="div-sub">분배금 지급 예정</div></div><div class="div-amt pending">~75,000원</div></div>
+
+      <div class="modal-month-hdr">7월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#1428A0">삼</div><div class="div-info"><div class="div-name">삼성전자</div><div class="div-sub">분기 배당 예정</div></div><div class="div-amt pending">~50,000원</div></div>
+
+      <div class="modal-month-hdr">9월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#FA8836">T</div><div class="div-info"><div class="div-name">TIGER 미국배당다우존스</div><div class="div-sub">분배금 지급 예정</div></div><div class="div-amt pending">~55,000원</div></div>
+
+      <div class="modal-month-hdr">10월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#1428A0">삼</div><div class="div-info"><div class="div-name">삼성전자</div><div class="div-sub">분기 배당 예정</div></div><div class="div-amt pending">~50,000원</div></div>
+      <div class="div-item"><div class="div-thumb" style="background:#003DA5">현</div><div class="div-info"><div class="div-name">현대차</div><div class="div-sub">분기 배당 예정</div></div><div class="div-amt pending">~60,000원</div></div>
+
+      <div class="modal-month-hdr">11월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#EA002C"><span style="font-size:9px">SK</span></div><div class="div-info"><div class="div-name">SK하이닉스</div><div class="div-sub">반기 배당 예정</div></div><div class="div-amt pending">~100,000원</div></div>
+
+      <div class="modal-month-hdr">12월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#5B5BD6">K</div><div class="div-info"><div class="div-name">KODEX 200</div><div class="div-sub">분배금 지급 예정</div></div><div class="div-amt pending">~90,000원</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 실현수익 (타이틀 제거, 누적→상단, 주수 표시, 손해 항목) ═══ -->
+  <div class="modal-overlay" id="modalRealized" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <!-- 누적 실현수익 (상단) -->
+      <div class="modal-total"><span class="mt-lbl">누적 실현수익</span><span class="mt-val">1,070,000원</span></div>
+
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">네이버</div>
+          <div class="mr-date">50주 · 2026년 5월 12일 매도</div>
+        </div>
+        <div class="mr-val up">+650,000원</div>
+      </div>
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">카카오</div>
+          <div class="mr-date">80주 · 2026년 4월 22일 매도</div>
+        </div>
+        <div class="mr-val up">+320,000원</div>
+      </div>
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">KODEX 200</div>
+          <div class="mr-date">30주 · 2026년 3월 5일 매도</div>
+        </div>
+        <div class="mr-val up">+280,000원</div>
+      </div>
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">LG에너지솔루션</div>
+          <div class="mr-date">10주 · 2026년 2월 18일 매도</div>
+        </div>
+        <div class="mr-val down">-180,000원</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 시그널 상세 ════════════════════════════════ -->
+  <div class="modal-overlay" id="modalSignal" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl" id="sigModalTitle"></div>
+      <div class="modal-sub sig-modal-body" id="sigModalBody"></div>
+      <div class="sig-rel-label">관련 종목</div>
+      <div id="sigModalStocks"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div>
+<div class="phone-label">B안 · 내 투자</div>
+<div class="phone" id="phone2">
+
+  <div class="status-bar"><img src="./assets/system/IcStatusBar-black.svg" width="393" height="44" alt="status"></div>
+
+  <div class="hdr-brand">
+    <img class="logo" src="./assets/system/IcNewNpayLogo.svg" height="22" alt="Npay">
+    <span class="service">내 투자</span>
+    <span class="spacer"></span>
+    <span style="font-size:14px;font-weight:700;color:var(--t2);cursor:pointer">자산 연결하기</span>
   </div>
 
   <div class="content">
@@ -1052,6 +1555,29 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
           <div class="diag-stat-val">1,250,000원</div>
         </div>
       </div>
+
+      <!-- 수익률 차트 -->
+      <div class="chart-legend">
+        <span class="chart-leg-item"><span class="cl-solid"></span>내 수익률</span>
+        <span class="chart-leg-item"><span class="cl-dash"></span>또래 평균</span>
+      </div>
+      <div style="margin:8px 0 4px">
+        <svg viewBox="0 0 340 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="20" x2="320" y2="20" stroke="#EDEFF2" stroke-width="1"/>
+          <line x1="20" y1="50" x2="320" y2="50" stroke="#EDEFF2" stroke-width="1"/>
+          <line x1="20" y1="80" x2="320" y2="80" stroke="#EDEFF2" stroke-width="1"/>
+          <line x1="20" y1="110" x2="320" y2="110" stroke="#EDEFF2" stroke-width="1"/>
+          <polyline points="20,100 95,90 170,82 245,75 320,65" stroke="#AAAAAC" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="20,100 95,85 170,70 245,58 320,40" stroke="#00DE5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="320" cy="40" r="4" fill="#00DE5A"/>
+          <text x="20" y="138" fill="#AAAAAC" font-size="10" text-anchor="middle" font-family="Pretendard">4/20</text>
+          <text x="95" y="138" fill="#AAAAAC" font-size="10" text-anchor="middle" font-family="Pretendard">4/27</text>
+          <text x="170" y="138" fill="#AAAAAC" font-size="10" text-anchor="middle" font-family="Pretendard">5/4</text>
+          <text x="245" y="138" fill="#AAAAAC" font-size="10" text-anchor="middle" font-family="Pretendard">5/11</text>
+          <text x="320" y="138" fill="#00DE5A" font-size="10" text-anchor="middle" font-weight="700" font-family="Pretendard">5/20</text>
+        </svg>
+      </div>
+
       <div class="diag-reason">
         <div class="diag-reason-text">한 달간 반도체·2차전지 테마 상승이 수익을 견인했어요. 같은 기간 코스피는 +2.3%였어요</div>
         <button class="diag-reason-btn" type="button">
@@ -1195,7 +1721,8 @@ const sigData={
   11:{title:'반도체 업종 수출 45% 증가',body:'반도체 업종 수출이 전년 동기 대비 <b>45% 증가</b>했어요. AI 서버용 HBM과 AI 가속기 수요가 수출 성장을 견인하고 있어요.',stocks:[{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true},{name:'SK하이닉스',init:'SK',bg:'#EA002C',price:'178,500원',delta:'-1.3%',up:false},{name:'DB하이텍',init:'DB',bg:'#003DA5',price:'42,000원',delta:'+3.5%',up:true}]},
   12:{title:'이더리움 ETF 순유입 5일 연속 증가',body:'미국 이더리움 현물 ETF에 <b>5거래일 연속 순유입</b>이 이어지고 있어요. 기관 투자자들의 가상자산 배분 확대가 배경이며, 이더리움 가격에 긍정적 신호예요.',stocks:[{name:'이더리움',init:'Ξ',bg:'#627EEA',price:'$3,820',delta:'+3.2%',up:true},{name:'비트코인',init:'₿',bg:'#F7931A',price:'$97,250',delta:'-2.8%',up:false},{name:'KODEX 비트코인선물',init:'K',bg:'#5B5BD6',price:'15,200원',delta:'+2.1%',up:true}]},
   13:{title:'비상장 시장 거래 활성화, 월 거래액 2조원 돌파',body:'비상장 주식 거래 시장의 <b>월 거래액이 2조원을 돌파</b>했어요. 두나무·크래프톤 등 대어급 비상장 종목 거래가 활발하며, 프리IPO 투자에 대한 관심이 높아지고 있어요.',stocks:[{name:'두나무',init:'두',bg:'#093687',price:'비상장 · 25만원',delta:'+8.5%',up:true},{name:'크래프톤(자회사)',init:'크',bg:'#333',price:'비상장 · 18만원',delta:'+3.2%',up:true}]},
-  14:{title:'미중 관세 갈등 재점화 우려',body:'미국과 중국 간 <b>관세 갈등이 재점화</b>될 조짐을 보이고 있어요. 반도체·수출주 중심으로 단기 변동성 확대가 우려돼요.',stocks:[{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true},{name:'LG에너지솔루션',init:'LG',bg:'#A50034',price:'385,000원',delta:'-2.1%',up:false},{name:'POSCO홀딩스',init:'P',bg:'#003DA5',price:'312,000원',delta:'-1.5%',up:false}]}
+  14:{title:'미중 관세 갈등 재점화 우려',body:'미국과 중국 간 <b>관세 갈등이 재점화</b>될 조짐을 보이고 있어요. 반도체·수출주 중심으로 단기 변동성 확대가 우려돼요.',stocks:[{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true},{name:'LG에너지솔루션',init:'LG',bg:'#A50034',price:'385,000원',delta:'-2.1%',up:false},{name:'POSCO홀딩스',init:'P',bg:'#003DA5',price:'312,000원',delta:'-1.5%',up:false}]},
+  15:{title:'트럼프 당선 확률 67%로 상승',body:'폴리마켓 기준 트럼프 당선 확률이 <b>67%로 상승</b>했어요. 에너지·방산 관련주 상승과 친환경 에너지주 약세가 예상돼요.',stocks:[{name:'한화에어로스페이스',init:'한',bg:'#003DA5',price:'285,000원',delta:'+3.2%',up:true},{name:'현대로템',init:'현',bg:'#003DA5',price:'42,500원',delta:'+1.8%',up:true},{name:'LG에너지솔루션',init:'LG',bg:'#A50034',price:'385,000원',delta:'-2.1%',up:false}]}
 };
 const chevSvg='<svg style="width:16px;height:16px;flex-shrink:0;opacity:.3" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function openSigModal(idx){
@@ -1233,8 +1760,10 @@ function bRenderHold(){
   const items=bCat==='all'?bHoldings:bHoldings.filter(h=>h.cat===bCat);
   const limit=bExpanded?items.length:Math.min(6,items.length);
   const hidden=items.length-limit;
-  let html='';
+  const catNames={stock:'주식',unlisted:'비상장',fund:'펀드',etf:'ETF',crypto:'가상자산'};
+  let html='',lastCat='';
   items.slice(0,limit).forEach(h=>{
+    if(bCat==='all'&&h.cat!==lastCat){lastCat=h.cat;html+=`<div class="hold-cat-title">${catNames[h.cat]||h.cat}</div>`;}
     const sub=h.shares?(h.shares+(h.price?' · 현재가 '+h.price:'')):'';
     html+=`<div class="hold-item">
       <div class="hold-top">
