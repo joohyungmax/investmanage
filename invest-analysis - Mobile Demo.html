@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=500">
+<title>투자 분석 A안 v6 — Mobile Demo</title>
+<style>
+@font-face{font-family:'Pretendard';src:url('../fonts/Pretendard-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Pretendard';src:url('../fonts/Pretendard-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Pretendard';src:url('../fonts/Pretendard-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#FFF;--bg-el:#F6F8FA;--bg-sub:#F3F5F7;--bg-gray:#ECEFF3;--bg-inv:#1E1E23;
+  --t1:#1E1E23;--t2:#767678;--t3:#AAAAAC;--td:#BBBBBD;--ti:#FFF;
+  --brand:#00DE5A;--brand-s:#DEFAE4;--brand-d:#009E3F;--brand-f:#ECFDF5;--brand-t:#09AB49;
+  --border:#EDEFF2;--border-s:#C8CACC;
+  --danger:#F73631;--danger-s:#FFEAEB;
+  --blue:#007EFF;--blue-s:#DEEEFF;
+  --orange:#FA8836;--orange-s:#FFEBD9;
+  --forest:#159F76;--forest-s:#EBF8F4;
+  --teal:#0FB9C0;--teal-s:#E0F6F8;
+  --purple:#5B5BD6;--purple-s:#EEF1FF;
+  --yellow:#FDD400;--yellow-s:#FFF8D0;
+  --ch1:#5B5BD6;--ch2:#FA8836;--ch3:#159F76;--ch4:#8B5BD6;--ch5:#FDD400;--ch6:#0FB9C0;
+}
+
+body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
+  background:#E8EAEF;display:flex;justify-content:center;padding:24px 0;
+  color:var(--t1);letter-spacing:-0.02em;line-height:1.4;-webkit-font-smoothing:antialiased}
+
+/* ── Phone ──────────────────────────────────────────────────── */
+.phone{width:393px;height:852px;background:#F2F3F7;border-radius:44px;overflow:hidden;position:relative;
+  box-shadow:0 8px 40px rgba(0,0,0,.12);display:flex;flex-direction:column}
+.phone-label{text-align:center;font-size:13px;color:var(--t2);margin-bottom:8px;font-weight:500}
+.status-bar{flex-shrink:0}.status-bar img{display:block;width:393px;height:44px}
+
+.hdr-brand{height:56px;display:flex;align-items:center;padding:0 16px;background:var(--bg);flex-shrink:0;border-bottom:1px solid var(--border)}
+.hdr-brand img.logo{height:22px;flex-shrink:0}
+.hdr-brand .service{font-size:20px;font-weight:700;margin-left:6px}
+.hdr-brand .spacer{flex:1}
+.hdr-brand .ico{width:24px;height:24px;flex-shrink:0;cursor:pointer}
+
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.content-inner{padding:8px 0 32px}
+
+/* Card */
+.card{margin:6px 16px;background:var(--bg);border-radius:14px;padding:16px;
+  box-shadow:0 1px 4px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.06)}
+.card+.card{margin-top:10px}
+.sec-hdr{display:flex;align-items:center;padding-bottom:14px}
+.sec-ttl{font-size:18px;font-weight:700;flex:1;min-width:0}
+.sec-link{display:inline-flex;align-items:center;gap:2px;font-size:13px;font-weight:700;
+  color:var(--t2);cursor:pointer;background:0;border:0;padding:0;font-family:inherit;flex-shrink:0;white-space:nowrap}
+.sec-link svg{width:12px;height:12px;flex-shrink:0;opacity:.5}
+
+/* ═══ 1. Calendar banner ═══════════════════════════════════════ */
+.cal-banner{cursor:pointer}
+.cal-top{display:flex;align-items:center;gap:10px}
+.stock-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:0}
+.cal-roller{flex:1;min-width:0;height:28px;overflow:hidden;position:relative}
+.cal-roller-track{display:flex;flex-direction:column;animation:calRoll 9s infinite}
+@keyframes calRoll{0%,28%{transform:translateY(0)}33%,61%{transform:translateY(-33.33%)}66%,94%{transform:translateY(-66.67%)}100%{transform:translateY(0)}}
+.cal-roller-item{height:28px;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.cal-roller-item .cr-text{font-size:14px;font-weight:500;color:var(--t1);white-space:nowrap;min-width:0}
+.dday{height:20px;padding:0 7px;font-size:11px;font-weight:700;border-radius:10px;display:inline-flex;align-items:center;
+  background:var(--brand-s);color:var(--brand-t);flex-shrink:0;letter-spacing:0}
+.cal-top .arr{width:14px;height:14px;flex-shrink:0;transition:transform .2s;margin-left:auto}
+.cal-banner.open .arr{transform:rotate(180deg)}
+.cal-banner.open .cal-roller-track{animation:none}
+.cal-list{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.cal-banner.open .cal-list{max-height:500px}
+.cal-item{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--border)}
+.cal-item:first-child{margin-top:8px}
+.cal-item .ci-body{font-size:14px;font-weight:400;color:var(--t1);white-space:nowrap}
+.cal-more{display:flex;align-items:center;justify-content:center;gap:4px;padding:12px 0 2px;
+  font-size:14px;font-weight:700;color:var(--brand-t);border-top:1px solid var(--border);cursor:pointer}
+.cal-more svg{width:14px;height:14px;flex-shrink:0}
+
+/* ═══ 2. AI Insight ════════════════════════════════════════════ */
+.card-ai{background:linear-gradient(135deg,#EDE7FF 0%,#DFF0FF 50%,#E4FFF4 100%);
+  border:0;box-shadow:0 2px 12px rgba(91,91,214,.08),0 4px 20px rgba(0,0,0,.04)}
+.ai-label{font-size:13px;font-weight:700;color:var(--purple);margin-bottom:8px;display:flex;align-items:center;gap:4px}
+.ai-label .ai-star{font-size:15px;line-height:1}
+.ai-diag{font-size:14px;font-weight:400;color:var(--t1);line-height:1.55;margin-bottom:14px}
+.ai-diag b{font-weight:700}
+.ai-action{display:inline-flex;align-items:center;gap:3px;font-size:14px;font-weight:700;
+  color:var(--purple);cursor:pointer;background:0;border:0;padding:0;font-family:inherit}
+.ai-action svg{width:14px;height:14px;flex-shrink:0}
+
+/* ═══ 3. Portfolio ═════════════════════════════════════════════ */
+.donut-wrap{display:flex;align-items:center;gap:20px;padding-bottom:16px}
+.donut{width:100px;height:100px;border-radius:50%;position:relative;flex-shrink:0}
+.donut::after{content:'';position:absolute;top:26px;left:26px;width:48px;height:48px;background:var(--bg);border-radius:50%}
+.port-legend{flex:1;min-width:0}
+.port-leg-row{display:flex;align-items:center;gap:6px;padding:3px 0}
+.port-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.port-leg-name{font-size:14px;font-weight:400;color:var(--t1);flex:1;min-width:0}
+.port-leg-val{font-size:13px;font-weight:500;color:var(--t2);flex-shrink:0;font-variant-numeric:tabular-nums}
+.port-advice{margin-top:12px;padding:14px;background:var(--bg-el);border-radius:10px}
+.port-advice-txt{font-size:14px;color:var(--t1);line-height:1.5}
+.port-advice-link{display:inline-flex;align-items:center;gap:3px;font-size:14px;font-weight:700;
+  color:var(--brand-t);margin-top:8px;cursor:pointer;background:0;border:0;padding:0;font-family:inherit}
+.port-advice-link svg{width:14px;height:14px;flex-shrink:0}
+
+/* ═══ 4. 성과 진단 ═════════════════════════════════════════════ */
+.diag-hdr{display:flex;align-items:baseline;padding-bottom:12px}
+.diag-hdr .sec-ttl{font-size:18px;font-weight:700;flex:1;min-width:0}
+.diag-hdr-val{display:flex;align-items:baseline;gap:5px;flex-shrink:0}
+.diag-hdr-amt{font-size:17px;font-weight:700;color:var(--brand-t);font-variant-numeric:tabular-nums}
+.diag-hdr-rate{font-size:13px;font-weight:700;color:var(--brand-t);font-variant-numeric:tabular-nums}
+
+.diag-stats{display:flex;gap:0;background:var(--bg-el);border-radius:10px;padding:12px 0;margin-bottom:14px}
+.diag-stat{flex:1;text-align:center;cursor:pointer;position:relative}
+.diag-stat+.diag-stat::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:1px;background:var(--border-s)}
+.diag-stat-label{font-size:12px;color:var(--t2);font-weight:500;margin-bottom:3px}
+.diag-stat-val{font-size:15px;font-weight:700;color:var(--t1);font-variant-numeric:tabular-nums}
+.diag-stat .arr-sm{display:inline-block;width:10px;height:10px;vertical-align:middle;opacity:.35;margin-left:2px}
+
+.period-tabs{display:flex;gap:6px;margin-bottom:14px}
+.period-tab{height:32px;padding:6px 12px;font-size:14px;font-weight:500;color:var(--t2);background:var(--bg-el);
+  border:1px solid transparent;border-radius:40px;cursor:pointer;line-height:20px;font-family:inherit}
+.period-tab.active{background:var(--bg-inv);color:var(--ti);font-weight:700}
+
+.chart-legend{display:flex;gap:16px;justify-content:flex-end;margin-bottom:4px}
+.chart-leg-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--t2)}
+.chart-leg-item .cl-solid{width:16px;height:2px;background:var(--brand)}
+.chart-leg-item .cl-dash{width:16px;height:0;border-top:2px dashed var(--t3)}
+
+.chart-wrap{position:relative;margin:8px 0 4px}
+.chart-wrap svg{width:100%;height:auto;display:block}
+.chart-tooltip{position:absolute;background:var(--bg-inv);color:var(--ti);font-size:12px;
+  padding:8px 10px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .15s;
+  white-space:nowrap;z-index:2;line-height:1.5}
+.chart-tooltip.show{opacity:1}
+.chart-tooltip .tt-date{font-weight:700;margin-bottom:2px}
+.chart-tooltip .tt-row{display:flex;align-items:center;gap:6px}
+.chart-tooltip .tt-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.diag-reason{padding:12px;background:var(--bg-el);border-radius:10px;margin-top:12px}
+.diag-reason-text{font-size:14px;color:var(--t1);line-height:1.5}
+.diag-reason-btn{display:inline-flex;align-items:center;gap:3px;font-size:13px;font-weight:700;
+  color:var(--brand-t);cursor:pointer;background:0;border:0;padding:0;margin-top:8px;font-family:inherit}
+.diag-reason-btn svg{width:12px;height:12px;flex-shrink:0}
+
+/* ═══ 5. Signal ════════════════════════════════════════════════ */
+.sig-toggle-wrap{display:flex;margin-bottom:14px;border-radius:8px;overflow:hidden;background:var(--bg-el)}
+.sig-toggle-btn{flex:1;height:36px;font-size:14px;font-weight:500;color:var(--t2);background:transparent;
+  border:0;cursor:pointer;font-family:inherit;transition:all .15s}
+.sig-toggle-btn.active{background:var(--bg-inv);color:var(--ti);font-weight:700;border-radius:6px;
+  box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.sig-inner{display:flex;flex-direction:column;gap:4px}
+.sig-card{background:var(--bg-el);border-radius:10px;padding:10px 12px;display:flex;gap:10px;
+  align-items:center;cursor:pointer;transition:background .12s}
+.sig-card:active{background:var(--bg-gray)}
+.sig-thumb{width:36px;height:36px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.sig-body{flex:1;min-width:0}
+.sig-text{font-size:14px;font-weight:400;color:var(--t1);line-height:1.45}
+.sig-text b{font-weight:700}
+.sig-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.sig-badge{height:20px;padding:1px 7px;font-size:11px;font-weight:700;border-radius:10px;
+  display:inline-flex;align-items:center;gap:3px}
+.sig-badge svg{width:10px;height:10px;flex-shrink:0}
+.sig-badge.pos{background:var(--brand-f);color:var(--brand-t)}
+.sig-badge.neg{background:var(--danger-s);color:var(--danger)}
+.sig-badge.neu{background:#E4E6EB;color:#555}
+.sig-more{display:flex;align-items:center;justify-content:center;gap:4px;padding:14px 0 2px;
+  font-size:14px;font-weight:700;color:var(--t2);cursor:pointer}
+.sig-more svg{width:14px;height:14px;flex-shrink:0;opacity:.5}
+.sig-content{display:none}.sig-content.active{display:block}
+
+/* ═══ 6. 투자 캘린더 (ref image style) ═════════════════════════ */
+.ical-row{display:flex;align-items:center;gap:0;padding:14px 12px;background:var(--bg-el);border-radius:12px;margin-bottom:4px}
+.ical-date-box{width:36px;text-align:center;flex-shrink:0}
+.ical-date-dow{font-size:12px;font-weight:500;color:var(--t2);line-height:1}
+.ical-date-day{font-size:20px;font-weight:700;color:var(--t1);line-height:1.3;font-variant-numeric:tabular-nums}
+.ical-divider{width:1px;height:32px;background:var(--border-s);margin:0 12px;flex-shrink:0}
+.ical-body{flex:1;min-width:0;display:flex;align-items:center;gap:8px}
+.ical-type-badge{height:22px;padding:0 8px;font-size:12px;font-weight:700;border-radius:4px;display:inline-flex;align-items:center;flex-shrink:0}
+.ical-type-badge.t-indicator{background:#E8EAEF;color:var(--t2)}
+.ical-type-badge.t-dividend{background:var(--brand-s);color:var(--brand-t)}
+.ical-type-badge.t-earnings{background:var(--blue-s);color:var(--blue)}
+.ical-type-badge.t-ipo{background:var(--orange-s);color:var(--orange)}
+.ical-type-badge.t-dist{background:var(--purple-s);color:var(--purple)}
+.ical-name{font-size:14px;font-weight:500;color:var(--t1);flex:1;min-width:0}
+.ical-right{flex-shrink:0;font-size:13px;font-weight:500;color:var(--t2);text-align:right}
+
+/* ═══ Modals ═══════════════════════════════════════════════════ */
+.modal-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:10;display:none;border-radius:44px;overflow:hidden}
+.modal-overlay.show{display:block}
+.modal-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--bg);border-radius:16px 16px 0 0;
+  transform:translateY(100%);transition:transform .3s ease;padding:20px 16px 32px;max-height:80%;overflow-y:auto}
+.modal-overlay.show .modal-sheet{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--bg-gray);border-radius:2px;margin:0 auto 16px}
+.modal-ttl{font-size:18px;font-weight:700;margin-bottom:16px}
+.modal-sub{font-size:14px;color:var(--t2);margin-bottom:16px;line-height:1.5}
+.modal-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.modal-row:last-child{border-bottom:0}
+.modal-row .mr-left{min-width:0;flex:1}
+.modal-row .mr-name{font-size:14px;color:var(--t1);font-weight:500}
+.modal-row .mr-date{font-size:12px;color:var(--t2);margin-top:2px}
+.modal-row .mr-val{font-size:15px;font-weight:700;flex-shrink:0;font-variant-numeric:tabular-nums}
+.modal-row .mr-val.up{color:var(--brand-t)}
+.modal-row .mr-val.down{color:var(--danger)}
+.modal-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0;margin-bottom:4px;border-bottom:2px solid var(--t1)}
+.modal-total .mt-lbl{font-size:15px;font-weight:700}
+.modal-total .mt-val{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.modal-month-hdr{font-size:13px;font-weight:700;color:var(--t2);padding:20px 0 4px}
+.div-item{display:flex;align-items:center;gap:10px;padding:8px 0}
+.div-thumb{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.div-info{flex:1;min-width:0}
+.div-name{font-size:14px;font-weight:500;color:var(--t1)}
+.div-sub{font-size:12px;color:var(--t2);margin-top:2px}
+.div-amt{font-size:15px;font-weight:700;flex-shrink:0;font-variant-numeric:tabular-nums}
+.div-amt.pending{color:var(--t2)}
+
+/* Peer modal */
+.peer-chart-wrap{position:relative;margin-bottom:16px}
+.peer-chart-wrap svg{width:100%;height:auto;display:block}
+.peer-info-row{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.peer-info-item{display:flex;justify-content:space-between;align-items:center}
+.peer-info-label{font-size:14px;color:var(--t2)}
+.peer-info-val{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.peer-info-val.up{color:var(--brand-t)}
+.peer-nudge{padding:14px;background:var(--bg-el);border-radius:10px}
+.peer-nudge-txt{font-size:14px;color:var(--t1);line-height:1.5}
+.peer-nudge-btn{display:inline-flex;align-items:center;gap:3px;font-size:13px;font-weight:700;
+  color:var(--purple);cursor:pointer;background:0;border:0;padding:0;margin-top:8px;font-family:inherit}
+.peer-nudge-btn svg{width:12px;height:12px;flex-shrink:0}
+
+/* Dividend modal chart */
+.div-chart-wrap{position:relative;margin-bottom:8px}
+.div-chart-wrap svg{width:100%;height:auto;display:block}
+.div-chart-legend{display:flex;gap:12px;justify-content:flex-end;margin-bottom:6px}
+.div-chart-leg{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--t2)}
+.div-chart-leg .dcl-box{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.div-nudge{padding:14px;background:var(--bg-el);border-radius:10px;margin-bottom:16px}
+.div-nudge-txt{font-size:14px;color:var(--t1);line-height:1.5}
+.div-nudge-btn{display:inline-flex;align-items:center;gap:3px;font-size:13px;font-weight:700;
+  color:var(--brand-t);cursor:pointer;background:0;border:0;padding:0;margin-top:8px;font-family:inherit}
+.div-nudge-btn svg{width:12px;height:12px;flex-shrink:0}
+
+/* Signal modal */
+.sig-modal-body{font-size:15px;color:var(--t1);line-height:1.6;margin-bottom:16px}
+.sig-modal-body b{font-weight:700}
+.sig-rel-label{font-size:13px;font-weight:700;color:var(--t2);margin-bottom:8px}
+.sig-rel-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.sig-rel-row:last-child{border-bottom:0}
+.sig-rel-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.sig-rel-info{flex:1;min-width:0}
+.sig-rel-name{font-size:14px;font-weight:500}
+.sig-rel-price{font-size:12px;color:var(--t2);margin-top:1px;font-variant-numeric:tabular-nums}
+.sig-rel-delta{font-size:13px;font-weight:700;flex-shrink:0;font-variant-numeric:tabular-nums}
+.sig-rel-delta.up{color:var(--brand-t)}.sig-rel-delta.down{color:var(--danger)}
+</style>
+</head>
+
+<body>
+
+<div>
+<div class="phone-label">투자 분석 A안</div>
+<div class="phone" id="phone1">
+
+  <div class="status-bar"><img src="../assets/system/IcStatusBar-black.svg" width="393" height="44" alt="status"></div>
+
+  <div class="hdr-brand">
+    <img class="logo" src="../assets/system/IcNewNpayLogo.svg" height="22" alt="Npay">
+    <span class="service">투자관리</span>
+    <span class="spacer"></span>
+    <img class="ico" src="../assets/ds-icons/IcBellStroke.svg" width="24" height="24" alt="알림">
+  </div>
+
+  <div class="content">
+    <div class="content-inner">
+
+      <!-- ① 금융 일정 배너 -->
+      <div class="card cal-banner" onclick="this.classList.toggle('open')">
+        <div class="cal-top">
+          <div class="cal-roller">
+            <div class="cal-roller-track">
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#1428A0">삼</span>
+                <span class="cr-text">삼성전자 배당락일</span>
+                <span class="dday">D-3</span>
+              </div>
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#555">A</span>
+                <span class="cr-text">애플 실적발표</span>
+                <span class="dday">D-7</span>
+              </div>
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#EA002C;font-size:10px">SK</span>
+                <span class="cr-text">SK하이닉스 배당지급일</span>
+                <span class="dday">D-12</span>
+              </div>
+            </div>
+          </div>
+          <img class="arr" src="../assets/ds-icons/chevron-down.svg" width="14" height="14" alt="">
+        </div>
+        <div class="cal-list">
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#1428A0;width:24px;height:24px;font-size:10px">삼</span>
+            <span class="ci-body">삼성전자 · 배당락일</span>
+            <span class="dday">D-3</span>
+          </div>
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#555;width:24px;height:24px;font-size:10px">A</span>
+            <span class="ci-body">애플 · 실적발표</span>
+            <span class="dday">D-7</span>
+          </div>
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#EA002C;width:24px;height:24px;font-size:9px">SK</span>
+            <span class="ci-body">SK하이닉스 · 배당지급일</span>
+            <span class="dday">D-12</span>
+          </div>
+          <div class="cal-item">
+            <span class="stock-circle" style="background:#CC0000;width:24px;height:24px;font-size:10px">T</span>
+            <span class="ci-body">테슬라 · 실적발표</span>
+            <span class="dday">D-15</span>
+          </div>
+          <span class="cal-more" onclick="event.stopPropagation()">
+            전체 금융 일정 보기
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- ② AI 투자 인사이트 (포괄적 투자 분석) -->
+      <div class="card card-ai">
+        <div class="ai-label"><span class="ai-star">✦</span> 투자 인사이트</div>
+        <div class="ai-diag">이번 달 수익률이 또래 평균보다 <b>3.6%p 앞서</b>고 있어요. <b>반도체·IT 비중 확대</b>가 수익을 견인했어요. 다만 다음 주 CPI 발표 전후 변동성에 대비해 <b>현금 비중 5~10%</b> 확보를 추천해요</div>
+        <button class="ai-action" type="button">
+          내 종목 확인하기
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#5B5BD6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- ③ 투자 포트폴리오 -->
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-ttl">투자 포트폴리오</span>
+          <button class="sec-link" type="button">
+            총 23,456,789원
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="donut-wrap">
+          <div class="donut" style="background:conic-gradient(var(--ch1) 0deg 162deg,var(--ch2) 162deg 252deg,var(--ch3) 252deg 306deg,var(--ch4) 306deg 342deg,var(--ch5) 342deg 360deg)"></div>
+          <div class="port-legend">
+            <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch1)"></span><span class="port-leg-name">주식</span><span class="port-leg-val">10,555,550원 (45%)</span></div>
+            <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch2)"></span><span class="port-leg-name">ETF</span><span class="port-leg-val">5,864,197원 (25%)</span></div>
+            <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch3)"></span><span class="port-leg-name">펀드</span><span class="port-leg-val">3,518,518원 (15%)</span></div>
+            <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch4)"></span><span class="port-leg-name">채권</span><span class="port-leg-val">2,345,679원 (10%)</span></div>
+            <div class="port-leg-row"><span class="port-leg-dot" style="background:var(--ch5)"></span><span class="port-leg-name">가상자산</span><span class="port-leg-val">1,172,845원 (5%)</span></div>
+          </div>
+        </div>
+        <div class="port-advice">
+          <div class="port-advice-txt">주식 비중이 45%로 집중되어 있어요. 채권이나 ETF로 분산하면 변동성을 줄이면서 안정적인 수익을 기대할 수 있어요</div>
+          <button class="port-advice-link" type="button">
+            고수들의 포트폴리오 엿보기
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ④ 성과 진단 -->
+      <div class="card">
+        <div class="diag-hdr">
+          <span class="sec-ttl">성과 진단</span>
+          <div class="diag-hdr-val">
+            <span class="diag-hdr-amt">+1,284,500원</span>
+            <span class="diag-hdr-rate">(+8.42%)</span>
+          </div>
+        </div>
+
+        <!-- 또래 / 배당 / 실현 — 배당·실현 검은색 -->
+        <div class="diag-stats">
+          <div class="diag-stat" onclick="openModal('modalPeer')">
+            <div class="diag-stat-label">또래비교</div>
+            <div class="diag-stat-val">상위 28%<svg class="arr-sm" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="diag-stat" onclick="openModal('modalDividend')">
+            <div class="diag-stat-label">배당수익</div>
+            <div class="diag-stat-val">320,000원<svg class="arr-sm" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="diag-stat" onclick="openModal('modalRealized')">
+            <div class="diag-stat-label">실현수익</div>
+            <div class="diag-stat-val">1,250,000원<svg class="arr-sm" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+
+        <div class="chart-legend">
+          <span class="chart-leg-item"><span class="cl-solid"></span>내 수익률</span>
+          <span class="chart-leg-item"><span class="cl-dash"></span>또래 평균</span>
+        </div>
+
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="chartSvg" viewBox="0 0 340 140" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="chart-tooltip" id="chartTip">
+            <div class="tt-date" id="ttDate"></div>
+            <div class="tt-row"><span class="tt-dot" style="background:#00DE5A"></span><span id="ttMy"></span></div>
+            <div class="tt-row"><span class="tt-dot" style="background:#AAAAAC"></span><span id="ttPeer"></span></div>
+          </div>
+        </div>
+
+        <div class="diag-reason" id="diagReason">
+          <div class="diag-reason-text" id="diagReasonText">IT 비중 확대와 반도체 호조로 이번 주 또래 대비 높은 수익을 기록했어요</div>
+          <button class="diag-reason-btn" type="button" id="diagReasonBtn">
+            <span id="diagBtnLabel">종목별 수익 상세 보기</span>
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ⑤ 투자 시그널 -->
+      <div class="card">
+        <div class="sec-hdr"><span class="sec-ttl">투자 시그널</span></div>
+
+        <div class="sig-toggle-wrap">
+          <button class="sig-toggle-btn active" type="button" onclick="switchSig(this,'mine')">내 종목</button>
+          <button class="sig-toggle-btn" type="button" onclick="switchSig(this,'market')">시장 트렌드</button>
+        </div>
+
+        <div class="sig-content active" id="sigMine">
+          <div class="sig-inner">
+            <div class="sig-card" onclick="openSigModal(0)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#1428A0,#3B5CE6)"><span style="color:#fff;font-size:13px;font-weight:700">삼</span></div>
+              <div class="sig-body">
+                <div class="sig-text"><b>삼성전자</b>, AI 반도체 수주 1조원 돌파</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>삼성전자</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(1)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#EA002C,#FF4466)"><span style="color:#fff;font-size:10px;font-weight:700">SK</span></div>
+              <div class="sig-body">
+                <div class="sig-text"><b>SK하이닉스</b> HBM 수율 이슈 점검 필요</div>
+                <div class="sig-badges"><span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>SK하이닉스</span></div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(2)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#F7931A,#FFB84D)"><span style="color:#fff;font-size:13px;font-weight:700">₿</span></div>
+              <div class="sig-body">
+                <div class="sig-text"><b>비트코인</b>, 10만 달러 돌파 후 조정 국면</div>
+                <div class="sig-badges">
+                  <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>비트코인</span>
+                  <span class="sig-badge neu"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5H8" stroke="#767678" stroke-width="1.4" stroke-linecap="round"/></svg>가상자산</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(3)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#093687,#1D6CED)"><span style="color:#fff;font-size:9px;font-weight:700">두나무</span></div>
+              <div class="sig-body">
+                <div class="sig-text"><b>두나무</b>(비상장), 업비트 거래량 역대 최고 경신</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>비상장</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>가상자산</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(4)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#FA8836,#FFB366)"><span style="color:#fff;font-size:13px;font-weight:700">카</span></div>
+              <div class="sig-body">
+                <div class="sig-text"><b>카카오</b> AI 사업 분할 기대감 상승</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>카카오</span>
+                  <span class="sig-badge neu"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5H8" stroke="#767678" stroke-width="1.4" stroke-linecap="round"/></svg>AI</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sig-content" id="sigMarket">
+          <div class="sig-inner">
+            <div class="sig-card" onclick="openSigModal(10)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#2B5EA7,#4AADE8)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text"><b>62%</b>는 기준금리가 동결될 것이라 생각해요</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>채권</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>금리</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(11)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#159F76,#2BC8A0)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 11l4 4 8-8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h7v7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text">반도체 업종 수출이 전년 대비 <b>45% 증가</b>했어요</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>IT</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(12)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#627EEA,#8FA8FF)"><span style="color:#fff;font-size:13px;font-weight:700">Ξ</span></div>
+              <div class="sig-body">
+                <div class="sig-text">이더리움 ETF 순유입 <b>5일 연속 증가</b></div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>가상자산</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>ETF</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(13)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#333,#555)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 17L9 11l4 4 8-8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h7v7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text">비상장 시장 거래 활성화, <b>월 거래액 2조원</b> 돌파</div>
+                <div class="sig-badges">
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>비상장</span>
+                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>프리IPO</span>
+                </div>
+              </div>
+            </div>
+            <div class="sig-card" onclick="openSigModal(14)">
+              <div class="sig-thumb" style="background:linear-gradient(135deg,#CC0000,#EE3344)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="sig-body">
+                <div class="sig-text">미중 관세 갈등 재점화 우려</div>
+                <div class="sig-badges">
+                  <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>수출주</span>
+                  <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sig-more">
+          시그널 전체보기
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- ⑥ 투자 캘린더 (ref image style) -->
+      <div class="card">
+        <div class="sec-hdr">
+          <span class="sec-ttl">투자 캘린더</span>
+          <button class="sec-link" type="button">
+            전체보기
+            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">목</div><div class="ical-date-day">22</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-indicator">지표</span>
+            <span class="ical-name">미국 CPI 발표</span>
+          </div>
+          <div class="ical-right">둔화 72%</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">23</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">삼성전자 배당락일</span>
+          </div>
+          <div class="ical-right">D-3</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">화</div><div class="ical-date-day">27</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-earnings">실적</span>
+            <span class="ical-name">애플 2Q 실적 발표</span>
+          </div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">수</div><div class="ical-date-day">28</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-ipo">청약</span>
+            <span class="ical-name">에이피알 공모주 청약</span>
+          </div>
+          <div class="ical-right">5/28~29</div>
+        </div>
+
+        <div class="ical-row">
+          <div class="ical-date-box"><div class="ical-date-dow">금</div><div class="ical-date-day">30</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dividend">배당</span>
+            <span class="ical-name">SK하이닉스 배당지급일</span>
+          </div>
+          <div class="ical-right">D-10</div>
+        </div>
+
+        <div class="ical-row" style="margin-bottom:0">
+          <div class="ical-date-box"><div class="ical-date-dow">월</div><div class="ical-date-day">1</div></div>
+          <div class="ical-divider"></div>
+          <div class="ical-body">
+            <span class="ical-type-badge t-dist">비상장</span>
+            <span class="ical-name">두나무 비상장주식 매칭 마감</span>
+          </div>
+          <div class="ical-right">D-12</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 또래비교 (타이틀 제거, x축 제거, 말풍선만, stats 세로) ═══ -->
+  <div class="modal-overlay" id="modalPeer" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="peer-chart-wrap" id="peerChartWrap">
+        <svg viewBox="0 0 340 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Distribution bars -->
+          <rect x="30" y="105" width="28" height="18" rx="3" fill="#EDEFF2"/>
+          <rect x="62" y="82" width="28" height="41" rx="3" fill="#EDEFF2"/>
+          <rect x="94" y="56" width="28" height="67" rx="3" fill="#EDEFF2"/>
+          <rect x="126" y="32" width="28" height="91" rx="3" fill="#EDEFF2"/>
+          <rect x="158" y="18" width="28" height="105" rx="3" fill="#EDEFF2"/>
+          <rect x="190" y="28" width="28" height="95" rx="3" fill="#EDEFF2"/>
+          <rect x="222" y="48" width="28" height="75" rx="3" fill="#00DE5A" opacity=".2"/>
+          <rect x="254" y="72" width="28" height="51" rx="3" fill="#EDEFF2"/>
+          <rect x="286" y="95" width="28" height="28" rx="3" fill="#EDEFF2"/>
+          <!-- My position dashed line -->
+          <line x1="236" y1="28" x2="236" y2="123" stroke="#00DE5A" stroke-width="2" stroke-dasharray="4 3"/>
+          <!-- Speech bubble -->
+          <rect x="196" y="2" width="80" height="24" rx="12" fill="#00DE5A"/>
+          <polygon points="232,26 236,32 240,26" fill="#00DE5A"/>
+          <text x="236" y="18" fill="#fff" font-size="11" text-anchor="middle" font-weight="700" font-family="Pretendard">나 (상위 28%)</text>
+          <!-- Hover rects -->
+          <rect x="18" y="0" width="36" height="130" fill="transparent" data-peer-idx="0" class="peer-touch"/>
+          <rect x="54" y="0" width="36" height="130" fill="transparent" data-peer-idx="1" class="peer-touch"/>
+          <rect x="86" y="0" width="36" height="130" fill="transparent" data-peer-idx="2" class="peer-touch"/>
+          <rect x="118" y="0" width="36" height="130" fill="transparent" data-peer-idx="3" class="peer-touch"/>
+          <rect x="150" y="0" width="36" height="130" fill="transparent" data-peer-idx="4" class="peer-touch"/>
+          <rect x="182" y="0" width="36" height="130" fill="transparent" data-peer-idx="5" class="peer-touch"/>
+          <rect x="214" y="0" width="36" height="130" fill="transparent" data-peer-idx="6" class="peer-touch"/>
+          <rect x="246" y="0" width="36" height="130" fill="transparent" data-peer-idx="7" class="peer-touch"/>
+          <rect x="278" y="0" width="36" height="130" fill="transparent" data-peer-idx="8" class="peer-touch"/>
+        </svg>
+        <div class="chart-tooltip" id="peerTip" style="top:auto;bottom:20px">
+          <div class="tt-date" id="peerTipTitle"></div>
+          <div id="peerTipBody" style="font-size:12px"></div>
+        </div>
+      </div>
+
+      <!-- Stats: 세로 배치, 박스 없음 -->
+      <div class="peer-info-row">
+        <div class="peer-info-item">
+          <span class="peer-info-label">내 수익률</span>
+          <span class="peer-info-val up">+8.42%</span>
+        </div>
+        <div class="peer-info-item">
+          <span class="peer-info-label">또래 평균 수익률</span>
+          <span class="peer-info-val">+4.8%</span>
+        </div>
+      </div>
+
+      <!-- 넛징 -->
+      <div class="peer-nudge">
+        <div class="peer-nudge-txt">또래 상위 10%는 평균 <b>+15.3%</b> 수익률을 내고 있어요. ETF와 채권 비중을 늘린 게 핵심 차이예요</div>
+        <button class="peer-nudge-btn" type="button">
+          또래 고수 포트폴리오 보기
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#5B5BD6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 배당수익 (타이틀 제거, 넛징→그래프 아래, 누적→리스트 위, 월별 서브타이틀) ═══ -->
+  <div class="modal-overlay" id="modalDividend" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <div class="div-chart-legend">
+        <span class="div-chart-leg"><span class="dcl-box" style="background:var(--brand)"></span>받은 배당</span>
+        <span class="div-chart-leg"><span class="dcl-box" style="background:var(--border-s)"></span>예정 배당</span>
+      </div>
+      <div class="div-chart-wrap">
+        <svg viewBox="0 0 340 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="82" width="20" height="28" rx="3" fill="#00DE5A"/>
+          <rect x="38" y="72" width="20" height="38" rx="3" fill="#00DE5A"/>
+          <rect x="66" y="56" width="20" height="54" rx="3" fill="#00DE5A"/>
+          <rect x="94" y="25" width="20" height="85" rx="3" fill="#00DE5A"/>
+          <rect x="122" y="95" width="20" height="15" rx="3" fill="#00DE5A"/>
+          <rect x="150" y="62" width="20" height="48" rx="3" fill="#C8CACC"/>
+          <rect x="178" y="78" width="20" height="32" rx="3" fill="#C8CACC"/>
+          <rect x="206" y="88" width="20" height="22" rx="3" fill="#C8CACC"/>
+          <rect x="234" y="72" width="20" height="38" rx="3" fill="#C8CACC"/>
+          <rect x="262" y="55" width="20" height="55" rx="3" fill="#C8CACC"/>
+          <rect x="290" y="40" width="20" height="70" rx="3" fill="#C8CACC"/>
+          <rect x="318" y="65" width="20" height="45" rx="3" fill="#C8CACC"/>
+          <text x="20" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">1</text>
+          <text x="48" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">2</text>
+          <text x="76" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">3</text>
+          <text x="104" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">4</text>
+          <text x="132" y="118" fill="#00DE5A" font-size="9" text-anchor="middle" font-weight="700" font-family="Pretendard">5</text>
+          <text x="160" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">6</text>
+          <text x="188" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">7</text>
+          <text x="216" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">8</text>
+          <text x="244" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">9</text>
+          <text x="272" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">10</text>
+          <text x="300" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">11</text>
+          <text x="328" y="118" fill="#AAAAAC" font-size="9" text-anchor="middle" font-family="Pretendard">12</text>
+        </svg>
+      </div>
+
+      <!-- 넛징 (그래프 바로 아래) -->
+      <div class="div-nudge">
+        <div class="div-nudge-txt">하반기 예상 배당은 <b>약 480,000원</b>이에요. 배당률 높은 종목을 추가하면 연간 배당을 더 늘릴 수 있어요</div>
+        <button class="div-nudge-btn" type="button">
+          고배당 종목 추천 받기
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- 누적 배당 -->
+      <div class="modal-total"><span class="mt-lbl">올해 누적 배당</span><span class="mt-val">320,000원</span></div>
+
+      <div class="modal-month-hdr" style="padding-top:4px">1월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#5B5BD6">K</div><div class="div-info"><div class="div-name">KODEX 배당성장</div></div><div class="div-amt">+45,000원</div></div>
+
+      <div class="modal-month-hdr">2월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#555">A</div><div class="div-info"><div class="div-name">애플</div></div><div class="div-amt">+35,000원</div></div>
+      <div class="div-item"><div class="div-thumb" style="background:#FA8836">T</div><div class="div-info"><div class="div-name">TIGER 미국배당다우존스</div></div><div class="div-amt">+20,000원</div></div>
+
+      <div class="modal-month-hdr">3월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#EA002C"><span style="font-size:9px">SK</span></div><div class="div-info"><div class="div-name">SK하이닉스</div></div><div class="div-amt">+85,000원</div></div>
+
+      <div class="modal-month-hdr">4월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#1428A0">삼</div><div class="div-info"><div class="div-name">삼성전자</div></div><div class="div-amt">+120,000원</div></div>
+      <div class="div-item"><div class="div-thumb" style="background:#003DA5">현</div><div class="div-info"><div class="div-name">현대차</div></div><div class="div-amt">+60,000원</div></div>
+
+      <!-- 배당 예정 -->
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+        <div style="font-size:13px;font-weight:700;color:var(--t2)">배당 예정</div>
+      </div>
+
+      <div class="modal-month-hdr">6월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#5B5BD6">K</div><div class="div-info"><div class="div-name">KODEX 200</div><div class="div-sub">분배금 지급 예정</div></div><div class="div-amt pending">~75,000원</div></div>
+
+      <div class="modal-month-hdr">7월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#1428A0">삼</div><div class="div-info"><div class="div-name">삼성전자</div><div class="div-sub">분기 배당 예정</div></div><div class="div-amt pending">~50,000원</div></div>
+
+      <div class="modal-month-hdr">9월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#FA8836">T</div><div class="div-info"><div class="div-name">TIGER 미국배당다우존스</div><div class="div-sub">분배금 지급 예정</div></div><div class="div-amt pending">~55,000원</div></div>
+
+      <div class="modal-month-hdr">10월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#1428A0">삼</div><div class="div-info"><div class="div-name">삼성전자</div><div class="div-sub">분기 배당 예정</div></div><div class="div-amt pending">~50,000원</div></div>
+      <div class="div-item"><div class="div-thumb" style="background:#003DA5">현</div><div class="div-info"><div class="div-name">현대차</div><div class="div-sub">분기 배당 예정</div></div><div class="div-amt pending">~60,000원</div></div>
+
+      <div class="modal-month-hdr">11월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#EA002C"><span style="font-size:9px">SK</span></div><div class="div-info"><div class="div-name">SK하이닉스</div><div class="div-sub">반기 배당 예정</div></div><div class="div-amt pending">~100,000원</div></div>
+
+      <div class="modal-month-hdr">12월</div>
+      <div class="div-item"><div class="div-thumb" style="background:#5B5BD6">K</div><div class="div-info"><div class="div-name">KODEX 200</div><div class="div-sub">분배금 지급 예정</div></div><div class="div-amt pending">~90,000원</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 실현수익 (타이틀 제거, 누적→상단, 주수 표시, 손해 항목) ═══ -->
+  <div class="modal-overlay" id="modalRealized" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+
+      <!-- 누적 실현수익 (상단) -->
+      <div class="modal-total"><span class="mt-lbl">누적 실현수익</span><span class="mt-val">1,070,000원</span></div>
+
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">네이버</div>
+          <div class="mr-date">50주 · 2026년 5월 12일 매도</div>
+        </div>
+        <div class="mr-val up">+650,000원</div>
+      </div>
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">카카오</div>
+          <div class="mr-date">80주 · 2026년 4월 22일 매도</div>
+        </div>
+        <div class="mr-val up">+320,000원</div>
+      </div>
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">KODEX 200</div>
+          <div class="mr-date">30주 · 2026년 3월 5일 매도</div>
+        </div>
+        <div class="mr-val up">+280,000원</div>
+      </div>
+      <div class="modal-row">
+        <div class="mr-left">
+          <div class="mr-name">LG에너지솔루션</div>
+          <div class="mr-date">10주 · 2026년 2월 18일 매도</div>
+        </div>
+        <div class="mr-val down">-180,000원</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: 시그널 상세 ════════════════════════════════ -->
+  <div class="modal-overlay" id="modalSignal" onclick="closeModal(this)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-ttl" id="sigModalTitle"></div>
+      <div class="modal-sub sig-modal-body" id="sigModalBody"></div>
+      <div class="sig-rel-label">관련 종목</div>
+      <div id="sigModalStocks"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+/* ═══ Chart data per period ════════════════════════════════════ */
+const chartData={
+  '1w':{
+    labels:['14일','15일','16일','17일','18일','19일','20일'],
+    my:[92,82,65,72,50,42,35],peer:[95,88,78,80,72,68,60],
+    pts:[{date:'5월 14일',my:'+0.0%',peer:'-0.2%'},{date:'5월 15일',my:'+0.8%',peer:'+0.5%'},{date:'5월 16일',my:'+2.1%',peer:'+1.3%'},{date:'5월 17일',my:'+1.5%',peer:'+1.1%'},{date:'5월 18일',my:'+3.1%',peer:'+2.0%'},{date:'5월 19일',my:'+3.7%',peer:'+2.4%'},{date:'5월 20일',my:'+4.2%',peer:'+2.8%'}],
+    reason:'IT 비중 확대와 반도체 호조로 이번 주 또래 대비 높은 수익을 기록했어요',btn:'이번 주 수익률 TOP 테마 보기'
+  },
+  '1m':{
+    labels:['4/20','4/27','5/4','5/11','5/20'],
+    my:[100,85,70,58,40],peer:[100,90,82,75,65],
+    pts:[{date:'4월 20일',my:'+0.0%',peer:'+0.0%'},{date:'4월 27일',my:'+1.2%',peer:'+0.8%'},{date:'5월 4일',my:'+2.8%',peer:'+1.5%'},{date:'5월 11일',my:'+3.5%',peer:'+2.1%'},{date:'5월 20일',my:'+5.1%',peer:'+2.9%'}],
+    reason:'한 달간 반도체·2차전지 테마 상승이 수익을 견인했어요. 같은 기간 코스피는 +2.3%였어요',btn:'반도체·2차전지 테마주 보기'
+  },
+  '3m':{
+    labels:['2월','3월','4월','5월'],
+    my:[105,88,65,30],peer:[105,92,78,55],
+    pts:[{date:'2월',my:'+0.0%',peer:'+0.0%'},{date:'3월',my:'+1.4%',peer:'+1.1%'},{date:'4월',my:'+3.8%',peer:'+2.3%'},{date:'5월',my:'+8.4%',peer:'+4.5%'}],
+    reason:'시장 대비 안정적인 수익을 유지하고 있어요. 분산투자 효과가 나타나고 있어요',btn:'수익률 TOP ETF 둘러보기'
+  },
+  '1y':{
+    labels:['6월','8월','10월','12월','2월','4월'],
+    my:[110,100,78,65,50,25],peer:[110,102,88,80,72,58],
+    pts:[{date:'2025년 6월',my:'+0.0%',peer:'+0.0%'},{date:'2025년 8월',my:'+2.5%',peer:'+2.0%'},{date:'2025년 10월',my:'+6.8%',peer:'+4.5%'},{date:'2025년 12월',my:'+10.2%',peer:'+6.8%'},{date:'2026년 2월',my:'+13.5%',peer:'+8.2%'},{date:'2026년 4월',my:'+17.8%',peer:'+10.1%'}],
+    reason:'장기 보유 전략이 효과를 보이고 있어요. 배당주 비중이 안정성에 기여했어요',btn:'고수익 투자 상품 보기'
+  }
+};
+let currentPeriod='1w';
+
+function buildChart(period){
+  currentPeriod=period;
+  const d=chartData[period],n=d.my.length,W=340,padX=20;
+  const step=(W-padX*2)/(n-1);
+  const xs=d.my.map((_,i)=>padX+i*step);
+  let h='';
+  [20,50,80,110].forEach(y=>{h+=`<line x1="${padX}" y1="${y}" x2="${W-padX}" y2="${y}" stroke="#EDEFF2" stroke-width="1"/>`});
+  h+=`<polyline points="${xs.map((x,i)=>x+','+d.peer[i]).join(' ')}" stroke="#AAAAAC" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round" stroke-linejoin="round"/>`;
+  h+=`<polyline points="${xs.map((x,i)=>x+','+d.my[i]).join(' ')}" stroke="#00DE5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+  h+=`<circle cx="${xs[n-1]}" cy="${d.my[n-1]}" r="4" fill="#00DE5A"/>`;
+  xs.forEach((x,i)=>{h+=`<text x="${x}" y="138" fill="#AAAAAC" font-size="10" text-anchor="middle" font-family="Pretendard">${d.labels[i]}</text>`});
+  xs.forEach((x,i)=>{const rx=i===0?0:x-step/2;const rw=i===0||i===n-1?step/2+padX:step;h+=`<rect x="${rx}" y="0" width="${rw}" height="125" fill="transparent" data-idx="${i}" class="chart-touch"/>`});
+  document.getElementById('chartSvg').innerHTML=h;
+  document.getElementById('diagReasonText').textContent=d.reason;
+  document.getElementById('diagBtnLabel').textContent=d.btn;
+  bindTooltip();
+}
+
+function bindTooltip(){
+  const wrap=document.getElementById('chartWrap'),tip=document.getElementById('chartTip');
+  document.querySelectorAll('#chartSvg .chart-touch').forEach(r=>{
+    const handler=()=>{
+      const d=chartData[currentPeriod],p=d.pts[+r.dataset.idx];if(!p)return;
+      document.getElementById('ttDate').textContent=p.date;
+      document.getElementById('ttMy').textContent='내 수익률 '+p.my;
+      document.getElementById('ttPeer').textContent='또래 평균 '+p.peer;
+      const svgR=wrap.querySelector('svg').getBoundingClientRect(),wrapR=wrap.getBoundingClientRect();
+      const x=+r.getAttribute('x')+(+r.getAttribute('width'))/2;
+      const left=svgR.left-wrapR.left+svgR.width*(x/340);
+      tip.style.left=Math.min(Math.max(left-60,0),wrapR.width-140)+'px';tip.style.top='0px';tip.classList.add('show');
+    };
+    r.addEventListener('mouseenter',handler);
+    r.addEventListener('touchstart',e=>{e.preventDefault();handler()},{passive:false});
+  });
+  wrap.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+}
+buildChart('1m');
+
+/* Peer chart tooltip */
+const peerBins=[
+  {label:'하위 10%',range:'-5% ~ -2%',pct:'8%'},
+  {label:'하위 20%',range:'-2% ~ 0%',pct:'12%'},
+  {label:'30~40%',range:'0% ~ +2%',pct:'18%'},
+  {label:'40~50%',range:'+2% ~ +4%',pct:'24%'},
+  {label:'평균 구간',range:'+4% ~ +6%',pct:'22%'},
+  {label:'상위 40%',range:'+6% ~ +8%',pct:'20%'},
+  {label:'상위 28% (나)',range:'+8% ~ +10%',pct:'16%'},
+  {label:'상위 15%',range:'+10% ~ +13%',pct:'10%'},
+  {label:'상위 10%',range:'+13% ~ +20%',pct:'5%'}
+];
+const peerTip=document.getElementById('peerTip');
+document.querySelectorAll('.peer-touch').forEach(r=>{
+  const handler=()=>{
+    const b=peerBins[+r.dataset.peerIdx];if(!b)return;
+    document.getElementById('peerTipTitle').textContent=b.label;
+    document.getElementById('peerTipBody').innerHTML=`수익률 ${b.range}<br>전체의 ${b.pct}`;
+    const rx=+r.getAttribute('x'),rw=+r.getAttribute('width');
+    peerTip.style.left=Math.max(rx+rw/2-50,0)+'px';peerTip.classList.add('show');
+  };
+  r.addEventListener('mouseenter',handler);
+  r.addEventListener('touchstart',e=>{e.preventDefault();handler()},{passive:false});
+});
+document.getElementById('peerChartWrap').addEventListener('mouseleave',()=>peerTip.classList.remove('show'));
+
+/* Signal toggle */
+function switchSig(btn,id){
+  btn.parentElement.querySelectorAll('.sig-toggle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.sig-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById(id==='mine'?'sigMine':'sigMarket').classList.add('active');
+}
+
+/* Modals */
+function openModal(id){document.getElementById(id).classList.add('show')}
+function closeModal(el){el.classList.remove('show')}
+
+/* Signal modal data */
+const sigData={
+  0:{title:'삼성전자, AI 반도체 수주 1조원 돌파',body:'삼성전자가 글로벌 AI 반도체 수주 <b>1조원을 돌파</b>했어요. HBM3E 양산 본격화와 함께 AI 서버 수요 급증이 배경이에요.',stocks:[{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true},{name:'한미반도체',init:'한',bg:'#333',price:'95,100원',delta:'+4.1%',up:true},{name:'리노공업',init:'리',bg:'#666',price:'165,000원',delta:'+1.8%',up:true}]},
+  1:{title:'SK하이닉스 HBM 수율 이슈',body:'SK하이닉스의 HBM 4세대 <b>수율이 예상보다 낮은 것으로 알려졌어요</b>. 양산 일정에 차질이 생길 수 있으나, 전문가들은 단기 이슈로 보고 있어요.',stocks:[{name:'SK하이닉스',init:'SK',bg:'#EA002C',price:'178,500원',delta:'-1.3%',up:false},{name:'미래에셋반도체',init:'미',bg:'#0066CC',price:'12,450원',delta:'-0.8%',up:false},{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true}]},
+  2:{title:'비트코인, 10만 달러 돌파 후 조정 국면',body:'비트코인이 <b>10만 달러를 돌파</b>한 뒤 차익 실현 매물로 조정을 받고 있어요. 단기 변동성은 크지만, 기관 매수세가 유지되고 있어 하방은 제한적이라는 분석이에요.',stocks:[{name:'비트코인',init:'₿',bg:'#F7931A',price:'$97,250',delta:'-2.8%',up:false},{name:'이더리움',init:'Ξ',bg:'#627EEA',price:'$3,820',delta:'-1.5%',up:false},{name:'업비트(두나무)',init:'두',bg:'#093687',price:'비상장',delta:'',up:true}]},
+  3:{title:'두나무(비상장), 업비트 거래량 역대 최고 경신',body:'두나무가 운영하는 <b>업비트의 일 거래량이 역대 최고</b>를 기록했어요. 비트코인 10만 달러 돌파와 함께 국내 가상자산 시장이 활기를 띠면서 IPO 기대감도 높아지고 있어요.',stocks:[{name:'두나무',init:'두',bg:'#093687',price:'비상장 · 25만원',delta:'+8.5%',up:true},{name:'비트코인',init:'₿',bg:'#F7931A',price:'$97,250',delta:'-2.8%',up:false}]},
+  4:{title:'카카오 AI 사업 분할 기대감',body:'카카오가 <b>AI 사업부를 별도 법인으로 분할</b>하는 방안을 검토 중이에요. 분할 시 AI 사업의 독자적 성장과 투자 유치가 가능해질 전망이에요.',stocks:[{name:'카카오',init:'카',bg:'#FA8836',price:'52,700원',delta:'+2.8%',up:true},{name:'카카오뱅크',init:'KB',bg:'#FFCD00',price:'28,150원',delta:'+1.2%',up:true},{name:'네이버',init:'네',bg:'#159F76',price:'198,500원',delta:'+0.5%',up:true}]},
+  10:{title:'62%는 기준금리 동결 전망',body:'글로벌 투자자 <b>62%가 다음 한국은행 기준금리 회의에서 동결</b>을 예상하고 있어요. 인플레이션 안정과 경기 회복 속도 사이의 균형이 핵심이에요.',stocks:[{name:'KODEX 국고채',init:'K',bg:'#5B5BD6',price:'105,250원',delta:'+0.3%',up:true},{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true}]},
+  11:{title:'반도체 업종 수출 45% 증가',body:'반도체 업종 수출이 전년 동기 대비 <b>45% 증가</b>했어요. AI 서버용 HBM과 AI 가속기 수요가 수출 성장을 견인하고 있어요.',stocks:[{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true},{name:'SK하이닉스',init:'SK',bg:'#EA002C',price:'178,500원',delta:'-1.3%',up:false},{name:'DB하이텍',init:'DB',bg:'#003DA5',price:'42,000원',delta:'+3.5%',up:true}]},
+  12:{title:'이더리움 ETF 순유입 5일 연속 증가',body:'미국 이더리움 현물 ETF에 <b>5거래일 연속 순유입</b>이 이어지고 있어요. 기관 투자자들의 가상자산 배분 확대가 배경이며, 이더리움 가격에 긍정적 신호예요.',stocks:[{name:'이더리움',init:'Ξ',bg:'#627EEA',price:'$3,820',delta:'+3.2%',up:true},{name:'비트코인',init:'₿',bg:'#F7931A',price:'$97,250',delta:'-2.8%',up:false},{name:'KODEX 비트코인선물',init:'K',bg:'#5B5BD6',price:'15,200원',delta:'+2.1%',up:true}]},
+  13:{title:'비상장 시장 거래 활성화, 월 거래액 2조원 돌파',body:'비상장 주식 거래 시장의 <b>월 거래액이 2조원을 돌파</b>했어요. 두나무·크래프톤 등 대어급 비상장 종목 거래가 활발하며, 프리IPO 투자에 대한 관심이 높아지고 있어요.',stocks:[{name:'두나무',init:'두',bg:'#093687',price:'비상장 · 25만원',delta:'+8.5%',up:true},{name:'크래프톤(자회사)',init:'크',bg:'#333',price:'비상장 · 18만원',delta:'+3.2%',up:true}]},
+  14:{title:'미중 관세 갈등 재점화 우려',body:'미국과 중국 간 <b>관세 갈등이 재점화</b>될 조짐을 보이고 있어요. 반도체·수출주 중심으로 단기 변동성 확대가 우려돼요.',stocks:[{name:'삼성전자',init:'삼',bg:'#1428A0',price:'72,300원',delta:'+2.4%',up:true},{name:'LG에너지솔루션',init:'LG',bg:'#A50034',price:'385,000원',delta:'-2.1%',up:false},{name:'POSCO홀딩스',init:'P',bg:'#003DA5',price:'312,000원',delta:'-1.5%',up:false}]}
+};
+const chevSvg='<svg style="width:16px;height:16px;flex-shrink:0;opacity:.3" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function openSigModal(idx){
+  const d=sigData[idx];if(!d)return;
+  document.getElementById('sigModalTitle').textContent=d.title;
+  document.getElementById('sigModalBody').innerHTML=d.body;
+  document.getElementById('sigModalStocks').innerHTML=d.stocks.map(s=>`<div class="sig-rel-row"><div class="sig-rel-circle" style="background:${s.bg}">${s.init}</div><div class="sig-rel-info"><div class="sig-rel-name">${s.name}</div><div class="sig-rel-price">${s.price}</div></div><div class="sig-rel-delta ${s.up?'up':'down'}">${s.delta}</div>${chevSvg}</div>`).join('');
+  openModal('modalSignal');
+}
+document.addEventListener('touchend',e=>{
+  if(!document.getElementById('chartWrap').contains(e.target))document.getElementById('chartTip').classList.remove('show');
+  if(!document.getElementById('peerChartWrap').contains(e.target))peerTip.classList.remove('show');
+});
+</script>
+</body>
+</html>
