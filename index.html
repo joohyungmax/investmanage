@@ -304,7 +304,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 .hold-cat-title{font-size:12px;font-weight:700;color:var(--t2);padding:16px 0 4px;text-transform:uppercase;letter-spacing:.02em}
 .hold-cat-title:first-child{padding-top:4px}
 #phone2 .hold-item{border-top:0 !important;padding:10px 0}
-#phone2 .hold-news{border-left:0}
+#phone2 .hold-news{border-left:0;display:flex;align-items:center;gap:6px;cursor:pointer}
 .b-section{padding:0 16px;margin-top:20px}
 .b-sec-hdr{display:flex;align-items:center;padding-bottom:10px}
 .b-sec-ttl{font-size:17px;font-weight:700;flex:1;min-width:0}
@@ -326,6 +326,8 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 .b-divider{height:8px;background:#F2F3F7;margin:0}
 .b-flat-row{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer}
 .b-flat-row:active{background:var(--bg-el)}
+.b-flat-label{font-size:15px;font-weight:700;color:var(--t1);flex-shrink:0}
+.b-flat-detail{flex:1;text-align:right;font-size:13px;font-weight:500;color:var(--t2);min-width:0}
 .b-line{height:1px;background:var(--border);margin:0 16px}
 #phone2 .sig-card{background:var(--bg-el)}
 #phone2 .ical-row{background:var(--bg-el)}
@@ -630,7 +632,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-indicator">지표</span>
             <span class="ical-name">미국 CPI 발표</span>
           </div>
-          <div class="ical-right">둔화 72%</div>
         </div>
 
         <div class="ical-row">
@@ -640,7 +641,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-dividend">배당</span>
             <span class="ical-name">삼성전자 배당락일</span>
           </div>
-          <div class="ical-right">D-3</div>
         </div>
 
         <div class="ical-row">
@@ -659,7 +659,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-ipo">청약</span>
             <span class="ical-name">에이피알 공모주 청약</span>
           </div>
-          <div class="ical-right">5/28~29</div>
         </div>
 
         <div class="ical-row">
@@ -669,7 +668,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-dividend">배당</span>
             <span class="ical-name">SK하이닉스 배당지급일</span>
           </div>
-          <div class="ical-right">D-10</div>
         </div>
 
         <div class="ical-row" style="margin-bottom:0">
@@ -679,7 +677,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-dist">비상장</span>
             <span class="ical-name">두나무 비상장주식 매칭 마감</span>
           </div>
-          <div class="ical-right">D-12</div>
         </div>
       </div>
 
@@ -902,7 +899,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
     <img class="logo" src="./assets/system/IcNewNpayLogo.svg" height="22" alt="Npay">
     <span class="service">내 투자</span>
     <span class="spacer"></span>
-    <span style="font-size:14px;font-weight:700;color:var(--t2);cursor:pointer">자산 연결하기</span>
+    <span style="font-size:14px;font-weight:700;color:var(--brand-t);cursor:pointer">자산 연결하기</span>
   </div>
 
   <div class="content">
@@ -910,13 +907,11 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 
       <!-- ① 총 투자금액 + 계좌 링크 -->
       <div class="b-total">
-        <div class="b-total-top">
-          <div class="total-amt">23,456,789원</div>
-          <button class="acct-link" type="button" onclick="openModal('bModalAcct')">
-            4개 계좌
-            <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
+        <button class="acct-link" type="button" onclick="openModal('bModalAcct')" style="margin-bottom:4px">
+          4개 계좌 합산
+          <svg viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="total-amt">23,456,789원</div>
         <div class="total-change">
           <span class="total-delta">+1,284,500원</span>
           <span class="total-rate">(+8.42%)</span>
@@ -933,15 +928,12 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
         </button>
       </div>
 
-      <!-- ──── 굵은 디바이더 ──── -->
-      <div class="b-divider"></div>
-
       <!-- ③ 포트폴리오 (플랫 라인 구분) -->
       <div class="b-flat-row" onclick="openModal('bModalPort')">
         <div class="compact-icon" style="background:var(--purple-s)">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="#5B5BD6" stroke-width="2"/><path d="M8 3a5 5 0 0 1 0 10" fill="#5B5BD6" opacity=".3"/></svg>
         </div>
-        <span class="compact-text">포트폴리오 · 주식 45% ETF 25% 펀드 15%</span>
+        <span class="b-flat-label">포트폴리오</span><span class="b-flat-detail">주식 45% · ETF 25% · 펀드 15%</span>
         <svg class="compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
 
@@ -952,7 +944,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
         <div class="compact-icon" style="background:var(--brand-f)">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 7l3 3 5-6" stroke="#09AB49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <span class="compact-text">수익 진단 · 또래 상위 28% · 이번 달 +8.42%</span>
+        <span class="b-flat-label">수익 진단</span><span class="b-flat-detail">또래 상위 28% · +8.42%</span>
         <svg class="compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#767678" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
 
@@ -960,7 +952,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
       <div class="b-divider"></div>
 
       <!-- ⑤ 보유종목 (타이틀 없이 탭부터) -->
-      <div style="padding:14px 16px 0">
+      <div style="padding:20px 16px 0">
         <div class="hold-tabs" id="bHoldTabs">
           <button class="hold-tab active" type="button" data-cat="all">전체</button>
           <button class="hold-tab" type="button" data-cat="stock">주식</button>
@@ -979,69 +971,11 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
       <!-- ──── 굵은 디바이더 ──── -->
       <div class="b-divider"></div>
 
-      <!-- ⑥ 투자 시그널 (A안과 동일 UI, non-card) -->
-      <div style="padding:0 16px 8px">
-        <div class="sec-hdr"><span class="sec-ttl">투자 시그널</span></div>
+      <!-- ⑥ 시장 트렌드 (non-card) -->
+      <div style="padding:20px 16px 8px">
+        <div class="sec-hdr"><span class="sec-ttl">시장 트렌드</span></div>
 
-        <div class="sig-toggle-wrap">
-          <button class="sig-toggle-btn active" type="button" onclick="switchBSig(this,'mine')">내 종목</button>
-          <button class="sig-toggle-btn" type="button" onclick="switchBSig(this,'market')">시장 트렌드</button>
-        </div>
-
-        <div class="sig-content active" id="bSigMine">
-          <div class="sig-inner">
-            <div class="sig-card" onclick="openBSigModal(0)">
-              <div class="sig-thumb" style="background:linear-gradient(135deg,#1428A0,#3B5CE6)"><span style="color:#fff;font-size:13px;font-weight:700">삼</span></div>
-              <div class="sig-body">
-                <div class="sig-text"><b>삼성전자</b>, AI 반도체 수주 1조원 돌파</div>
-                <div class="sig-badges">
-                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>삼성전자</span>
-                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>반도체</span>
-                </div>
-              </div>
-            </div>
-            <div class="sig-card" onclick="openBSigModal(1)">
-              <div class="sig-thumb" style="background:linear-gradient(135deg,#EA002C,#FF4466)"><span style="color:#fff;font-size:10px;font-weight:700">SK</span></div>
-              <div class="sig-body">
-                <div class="sig-text"><b>SK하이닉스</b> HBM 수율 이슈 점검 필요</div>
-                <div class="sig-badges"><span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>SK하이닉스</span></div>
-              </div>
-            </div>
-            <div class="sig-card" onclick="openBSigModal(2)">
-              <div class="sig-thumb" style="background:linear-gradient(135deg,#F7931A,#FFB84D)"><span style="color:#fff;font-size:13px;font-weight:700">₿</span></div>
-              <div class="sig-body">
-                <div class="sig-text"><b>비트코인</b>, 10만 달러 돌파 후 조정 국면</div>
-                <div class="sig-badges">
-                  <span class="sig-badge neg"><svg viewBox="0 0 10 10" fill="none"><path d="M5 2V8M5 8L2.5 5.5M5 8L7.5 5.5" stroke="#F73631" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>비트코인</span>
-                  <span class="sig-badge neu"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5H8" stroke="#767678" stroke-width="1.4" stroke-linecap="round"/></svg>가상자산</span>
-                </div>
-              </div>
-            </div>
-            <div class="sig-card" onclick="openBSigModal(3)">
-              <div class="sig-thumb" style="background:linear-gradient(135deg,#093687,#1D6CED)"><span style="color:#fff;font-size:9px;font-weight:700">두나무</span></div>
-              <div class="sig-body">
-                <div class="sig-text"><b>두나무</b>(비상장), 업비트 거래량 역대 최고 경신</div>
-                <div class="sig-badges">
-                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>비상장</span>
-                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>가상자산</span>
-                </div>
-              </div>
-            </div>
-            <div class="sig-card" onclick="openBSigModal(4)">
-              <div class="sig-thumb" style="background:linear-gradient(135deg,#FA8836,#FFB366)"><span style="color:#fff;font-size:13px;font-weight:700">카</span></div>
-              <div class="sig-body">
-                <div class="sig-text"><b>카카오</b> AI 사업 분할 기대감 상승</div>
-                <div class="sig-badges">
-                  <span class="sig-badge pos"><svg viewBox="0 0 10 10" fill="none"><path d="M5 8V2M5 2L2.5 4.5M5 2L7.5 4.5" stroke="#09AB49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>카카오</span>
-                  <span class="sig-badge neu"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5H8" stroke="#767678" stroke-width="1.4" stroke-linecap="round"/></svg>AI</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sig-content" id="bSigMarket">
-          <div class="sig-inner">
+        <div class="sig-inner">
             <div class="sig-card" onclick="openBSigModal(10)">
               <div class="sig-thumb" style="background:linear-gradient(135deg,#2B5EA7,#4AADE8)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg></div>
               <div class="sig-body">
@@ -1093,7 +1027,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
               </div>
             </div>
           </div>
-        </div>
 
         <div class="sig-more">
           더보기
@@ -1101,11 +1034,11 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
         </div>
       </div>
 
-      <!-- ──── 굵은 디바이더 ──── -->
+            <!-- ──── 굵은 디바이더 ──── -->
       <div class="b-divider"></div>
 
       <!-- ⑦ 투자 캘린더 (일반형, non-card) -->
-      <div style="padding:0 16px 24px">
+      <div style="padding:20px 16px 24px">
         <div class="sec-hdr">
           <span class="sec-ttl">투자 캘린더</span>
           <button class="sec-link" type="button">
@@ -1121,7 +1054,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-indicator">지표</span>
             <span class="ical-name">미국 CPI 발표</span>
           </div>
-          <div class="ical-right">둔화 72%</div>
         </div>
 
         <div class="ical-row">
@@ -1131,7 +1063,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-dividend">배당</span>
             <span class="ical-name">삼성전자 배당락일</span>
           </div>
-          <div class="ical-right">D-3</div>
         </div>
 
         <div class="ical-row">
@@ -1150,7 +1081,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-ipo">청약</span>
             <span class="ical-name">에이피알 공모주 청약</span>
           </div>
-          <div class="ical-right">5/28~29</div>
         </div>
 
         <div class="ical-row">
@@ -1160,7 +1090,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-dividend">배당</span>
             <span class="ical-name">SK하이닉스 배당지급일</span>
           </div>
-          <div class="ical-right">D-10</div>
         </div>
 
         <div class="ical-row" style="margin-bottom:0">
@@ -1170,7 +1099,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <span class="ical-type-badge t-dist">비상장</span>
             <span class="ical-name">두나무 비상장주식 매칭 마감</span>
           </div>
-          <div class="ical-right">D-12</div>
         </div>
       </div>
 
@@ -1421,19 +1349,20 @@ document.addEventListener('touchend',e=>{
 
 
 /* ═══ B안 ═════════════════════════════════════════════════════ */
+const sentColor={pos:'#09AB49',neg:'#F73631',neu:'#767678'};
 const bHoldings=[
-  {cat:'stock',name:'삼성전자',init:'삼',bg:'#1428A0',shares:'50주',price:'72,300원',amt:'3,615,000원',rate:'+12.5%',up:true,news:'AI 반도체 수주 1조원 돌파, HBM3E 양산 본격화'},
-  {cat:'stock',name:'SK하이닉스',init:'SK',bg:'#EA002C',sz:9,shares:'20주',price:'178,500원',amt:'3,570,000원',rate:'+8.2%',up:true,news:''},
-  {cat:'stock',name:'네이버',init:'네',bg:'#159F76',shares:'15주',price:'198,500원',amt:'2,977,500원',rate:'+15.3%',up:true,news:'2분기 광고 매출 서프라이즈 전망'},
-  {cat:'stock',name:'현대차',init:'현',bg:'#003DA5',shares:'10주',price:'225,000원',amt:'2,250,000원',rate:'+6.8%',up:true,news:''},
-  {cat:'stock',name:'카카오',init:'카',bg:'#FA8836',shares:'30주',price:'52,700원',amt:'1,581,000원',rate:'-3.2%',up:false,news:''},
-  {cat:'unlisted',name:'두나무',init:'두',bg:'#093687',shares:'20주',price:'250,000원',amt:'5,000,000원',rate:'+8.5%',up:true,news:'업비트 거래량 역대 최고 경신, IPO 기대감 상승'},
-  {cat:'fund',name:'삼성 글로벌 AI 펀드',init:'삼',bg:'#1428A0',shares:'',price:'',amt:'2,518,518원',rate:'+11.2%',up:true,news:''},
-  {cat:'fund',name:'미래에셋 인컴플러스',init:'미',bg:'#0066CC',shares:'',price:'',amt:'1,000,000원',rate:'+3.8%',up:true,news:''},
-  {cat:'etf',name:'KODEX 200',init:'K',bg:'#5B5BD6',shares:'100좌',price:'35,180원',amt:'3,518,000원',rate:'+5.4%',up:true,news:''},
-  {cat:'etf',name:'TIGER 미국배당다우존스',init:'T',bg:'#FA8836',shares:'50좌',price:'12,400원',amt:'620,000원',rate:'+7.1%',up:true,news:'미국 배당주 3주 연속 상승세'},
-  {cat:'crypto',name:'비트코인',init:'₿',bg:'#F7931A',shares:'0.012 BTC',price:'$97,250',amt:'1,400,000원',rate:'-2.8%',up:false,news:'10만 달러 돌파 후 차익 실현 매물로 조정 국면'},
-  {cat:'crypto',name:'이더리움',init:'Ξ',bg:'#627EEA',shares:'0.5 ETH',price:'$3,820',amt:'228,000원',rate:'+3.2%',up:true,news:''}
+  {cat:'stock',name:'삼성전자',init:'삼',bg:'#1428A0',shares:'50주',price:'72,300원',amt:'3,615,000원',rate:'+12.5%',up:true,news:'AI 반도체 수주 1조원 돌파, HBM3E 양산 본격화',sent:'pos'},
+  {cat:'stock',name:'SK하이닉스',init:'SK',bg:'#EA002C',sz:9,shares:'20주',price:'178,500원',amt:'3,570,000원',rate:'+8.2%',up:true,news:'HBM 수율 이슈 — 단기 변동성 확대 우려',sent:'neg'},
+  {cat:'stock',name:'네이버',init:'네',bg:'#159F76',shares:'15주',price:'198,500원',amt:'2,977,500원',rate:'+15.3%',up:true,news:'2분기 실적 발표 D-12, 광고 매출 서프라이즈 전망',sent:'pos'},
+  {cat:'stock',name:'현대차',init:'현',bg:'#003DA5',shares:'10주',price:'225,000원',amt:'2,250,000원',rate:'+6.8%',up:true,news:'미국 관세 리스크, 수출 둘화 우려',sent:'neg'},
+  {cat:'stock',name:'카카오',init:'카',bg:'#FA8836',shares:'30주',price:'52,700원',amt:'1,581,000원',rate:'-3.2%',up:false,news:'AI 사업 분할 검토 — 시장 반응 엇갈려',sent:'neu'},
+  {cat:'unlisted',name:'두나무',init:'두',bg:'#093687',shares:'20주',price:'250,000원',amt:'5,000,000원',rate:'+8.5%',up:true,news:'업비트 거래량 역대 최고, IPO 기대감 상승',sent:'pos'},
+  {cat:'fund',name:'삼성 글로벌 AI 펀드',init:'삼',bg:'#1428A0',shares:'',price:'',amt:'2,518,518원',rate:'+11.2%',up:true,news:'글로벌 AI 테마 펀드 수익률 상위권',sent:'pos'},
+  {cat:'fund',name:'미래에셋 인컴플러스',init:'미',bg:'#0066CC',shares:'',price:'',amt:'1,000,000원',rate:'+3.8%',up:true,news:'',sent:''},
+  {cat:'etf',name:'KODEX 200',init:'K',bg:'#5B5BD6',shares:'100좌',price:'35,180원',amt:'3,518,000원',rate:'+5.4%',up:true,news:'배당락일 D-7',sent:'neu',dday:'D-7'},
+  {cat:'etf',name:'TIGER 미국배당다우존스',init:'T',bg:'#FA8836',shares:'50좌',price:'12,400원',amt:'620,000원',rate:'+7.1%',up:true,news:'미국 배당주 3주 연속 상승세',sent:'pos'},
+  {cat:'crypto',name:'비트코인',init:'₿',bg:'#F7931A',shares:'0.012 BTC',price:'$97,250',amt:'1,400,000원',rate:'-2.8%',up:false,news:'폴리마켓: 연내 15만 달러 돌파 확률 42%',sent:'pos'},
+  {cat:'crypto',name:'이더리움',init:'Ξ',bg:'#627EEA',shares:'0.5 ETH',price:'$3,820',amt:'228,000원',rate:'+3.2%',up:true,news:'ETF 순유입 5일 연속 증가',sent:'pos'}
 ];
 let bCat='all',bExpanded=false;
 
@@ -1459,7 +1388,7 @@ function bRenderHold(){
           <div class="hold-rate ${h.up?'up':'down'}">${h.rate}</div>
         </div>
       </div>
-      ${h.news?`<div class="hold-news">${h.news}</div>`:''}
+      ${h.news?`<div class="hold-news"><span style="color:${sentColor[h.sent]||'#767678'};flex-shrink:0">✦</span><span style="flex:1">${h.news}</span>${h.dday?`<span style="height:20px;padding:0 7px;font-size:11px;font-weight:700;border-radius:10px;display:inline-flex;align-items:center;background:var(--brand-s);color:var(--brand-t);flex-shrink:0">${h.dday}</span>`:''}<svg style="width:14px;height:14px;flex-shrink:0;opacity:.35" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`:''}
     </div>`;
   });
   list.innerHTML=html;
