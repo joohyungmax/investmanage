@@ -61,7 +61,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
   font-size:11px;font-weight:700;color:#fff;flex-shrink:0;letter-spacing:0}
 .cal-roller{flex:1;min-width:0;height:28px;overflow:hidden;position:relative}
 .cal-roller-track{display:flex;flex-direction:column;animation:calRoll 9s infinite}
-@keyframes calRoll{0%,28%{transform:translateY(0)}33%,61%{transform:translateY(-33.33%)}66%,94%{transform:translateY(-66.67%)}100%{transform:translateY(0)}}
+@keyframes calRoll{0%,22%{transform:translateY(0)}25%,47%{transform:translateY(-25%)}50%,72%{transform:translateY(-50%)}75%,97%{transform:translateY(-75%)}100%{transform:translateY(-75%)}}
 .cal-roller-item{height:28px;display:flex;align-items:center;gap:6px;flex-shrink:0}
 .cal-roller-item .cr-text{font-size:14px;font-weight:500;color:var(--t1);white-space:nowrap;min-width:0}
 .dday{height:20px;padding:0 7px;font-size:11px;font-weight:700;border-radius:10px;display:inline-flex;align-items:center;
@@ -374,7 +374,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 #phone3 .hold-news:active{opacity:.7}
 #phone3 .sig-card{background:var(--bg-el)}
 #phone3 .ical-row{background:var(--bg-el)}
-@keyframes cPortRoll{0%,40%{transform:translateY(0)}50%,90%{transform:translateY(-50%)}100%{transform:translateY(0)}}
+@keyframes cPortRoll{0%,30%{transform:translateY(0)}33.33%,63.33%{transform:translateY(-33.33%)}66.67%,96.67%{transform:translateY(-66.67%)}100%{transform:translateY(-66.67%)}}
 </style>
 </head>
 
@@ -417,6 +417,11 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
                 <span class="stock-circle" style="background:#EA002C;font-size:10px">SK</span>
                 <span class="cr-text">SK하이닉스 배당지급일</span>
                 <span class="dday">D-12</span>
+              </div>
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#1428A0">삼</span>
+                <span class="cr-text">삼성전자 배당락일</span>
+                <span class="dday">D-3</span>
               </div>
             </div>
           </div>
@@ -1285,16 +1290,6 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
 
       <!-- ③ 내 투자 진단 (combined card) -->
       <div class="card">
-        <!-- 총 투자금액 + 수익률 -->
-        <div class="c-diag-row" onclick="openModal('cModalAcct')">
-          <div class="c-diag-main">
-            <span class="c-diag-amt">23,456,789원</span>
-            <span class="c-diag-rate up">+8.42%</span>
-          </div>
-          <svg class="c-compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="c-line"></div>
-
         <!-- 투자 금액 -->
         <div class="c-diag-row" onclick="openModal('cModalPort')">
           <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
@@ -1307,6 +1302,7 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
             <div class="c-port-roller" style="display:flex;flex-direction:column;animation:cPortRoll 6s infinite">
               <span style="height:18px;line-height:18px">23,456,789원</span>
               <span style="height:18px;line-height:18px">주식 45% · ETF 25% · 펀드 15%</span>
+              <span style="height:18px;line-height:18px">23,456,789원</span>
             </div>
           </div>
           <svg class="c-compact-arr" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="#BBBBBD" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1345,6 +1341,11 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
                 <span class="stock-circle" style="background:#EA002C;font-size:10px">SK</span>
                 <span class="cr-text">SK하이닉스 배당지급일</span>
                 <span class="dday">D-12</span>
+              </div>
+              <div class="cal-roller-item">
+                <span class="stock-circle" style="background:#1428A0">삼</span>
+                <span class="cr-text">삼성전자 배당락일</span>
+                <span class="dday">D-3</span>
               </div>
             </div>
           </div>
@@ -1993,21 +1994,21 @@ function cRenderRank(){
     if(isMine && h.shares){
       subLine=h.shares+(h.avgPrice?' · 평단 '+h.avgPrice:'');
     }
-    html+=\`<div class="c-rank-wrap\${glowClass}">
+    html+=`<div class="c-rank-wrap${glowClass}">
       <div class="c-rank-top">
-        <span class="c-rank-num">\${rank}</span>
-        <div class="hold-thumb" style="background:\${h.bg};border-radius:50%;\${h.sz?'font-size:'+h.sz+'px':''}">\${h.init}</div>
+        <span class="c-rank-num">${rank}</span>
+        <div class="hold-thumb" style="background:${h.bg};border-radius:50%;${h.sz?'font-size:'+h.sz+'px':''}">${h.init}</div>
         <div class="hold-info">
-          <div class="hold-name">\${h.name}</div>
-          \${subLine?\`<div class="hold-sub">\${subLine}</div>\`:''}
+          <div class="hold-name">${h.name}</div>
+          ${subLine?`<div class="hold-sub">${subLine}</div>`:''}
         </div>
         <div class="hold-val">
-          <div class="hold-amt">\${h.price||''}</div>
-          <div class="hold-rate \${h.up?'up':'down'}">\${h.rateStr}</div>
+          <div class="hold-amt">${h.price||''}</div>
+          <div class="hold-rate ${h.up?'up':'down'}">${h.rateStr}</div>
         </div>
       </div>
-      \${h.news?\`<div class="hold-news" style="border-left:0" onclick="openCNews('\${h.name}')">\${h.dday?\`<span class="dday" style="flex-shrink:0">\${h.dday}</span>\`:\`<span style="color:\${sentColor[h.sent]||'#767678'};flex-shrink:0">✦</span>\`}<span style="flex:1">\${h.news}</span>\${cChevSvg}</div>\`:''}
-    </div>\`;
+      ${h.news?`<div class="hold-news" style="border-left:0" onclick="openCNews('${h.name}')">${h.dday?`<span class="dday" style="flex-shrink:0">${h.dday}</span>`:`<span style="color:${sentColor[h.sent]||'#767678'};flex-shrink:0">✦</span>`}<span style="flex:1">${h.news}</span>${cChevSvg}</div>`:''}
+    </div>`;
   });
   list.innerHTML=html;
   /* Update more button text */
