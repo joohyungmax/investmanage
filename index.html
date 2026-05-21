@@ -1195,9 +1195,8 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
   <div class="modal-overlay" id="bModalDiag" onclick="closeModal(this)">
     <div class="modal-sheet" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
-      <div class="modal-ttl">수익 진단</div>
       <div class="diag-hdr" style="padding-bottom:16px">
-        <span class="sec-ttl" style="font-size:16px">이번 달 수익</span>
+        <span class="sec-ttl" style="font-size:18px">수익 진단</span>
         <div class="diag-hdr-val">
           <span class="diag-hdr-amt">+1,284,500원</span>
           <span class="diag-hdr-rate">(+8.42%)</span>
@@ -1205,8 +1204,8 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
       </div>
       <div class="diag-stats" style="margin-bottom:16px">
         <div class="diag-stat">
-          <div class="diag-stat-label">수익금</div>
-          <div class="diag-stat-val" style="color:var(--brand-t)">+1,284,500원</div>
+          <div class="diag-stat-label">또래비교</div>
+          <div class="diag-stat-val">상위 28%</div>
         </div>
         <div class="diag-stat">
           <div class="diag-stat-label">배당수익</div>
@@ -1574,30 +1573,48 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
   <div class="modal-overlay" id="cModalPort" onclick="closeModal(this)">
     <div class="modal-sheet" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
-      <div style="font-size:24px;font-weight:700;margin-bottom:4px;font-variant-numeric:tabular-nums">23,456,789원</div>
-      <div style="font-size:14px;font-weight:700;color:var(--brand-t);margin-bottom:20px">+1,284,500원 (+8.42%)</div>
+      <div class="modal-ttl">총 평가금액 <span style="font-weight:700;font-variant-numeric:tabular-nums">23,456,789원</span></div>
 
-      <!-- 바 차트 -->
+      <!-- 스택형 가로 막대 차트 -->
+      <div style="display:flex;height:28px;border-radius:8px;overflow:hidden;margin-bottom:20px">
+        <div style="width:45%;background:var(--ch1)"></div>
+        <div style="width:25%;background:var(--ch2)"></div>
+        <div style="width:15%;background:var(--ch3)"></div>
+        <div style="width:10%;background:var(--ch4)"></div>
+        <div style="width:5%;background:var(--ch5)"></div>
+      </div>
+
+      <!-- 범례 -->
       <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:var(--t1)">주식</span><span style="font-size:13px;color:var(--t2)">10,555,550원 (45%)</span></div>
-          <div style="height:8px;background:var(--bg-el);border-radius:4px;overflow:hidden"><div style="width:45%;height:100%;background:var(--ch1);border-radius:4px"></div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;border-radius:3px;background:var(--ch1);flex-shrink:0"></span>
+          <span style="font-size:14px;font-weight:600;flex:1">주식</span>
+          <span style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums">10,555,550원</span>
+          <span style="font-size:13px;color:var(--t2);width:36px;text-align:right">45%</span>
         </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:var(--t1)">ETF</span><span style="font-size:13px;color:var(--t2)">5,864,197원 (25%)</span></div>
-          <div style="height:8px;background:var(--bg-el);border-radius:4px;overflow:hidden"><div style="width:25%;height:100%;background:var(--ch2);border-radius:4px"></div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;border-radius:3px;background:var(--ch2);flex-shrink:0"></span>
+          <span style="font-size:14px;font-weight:600;flex:1">ETF</span>
+          <span style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums">5,864,197원</span>
+          <span style="font-size:13px;color:var(--t2);width:36px;text-align:right">25%</span>
         </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:var(--t1)">펀드</span><span style="font-size:13px;color:var(--t2)">3,518,518원 (15%)</span></div>
-          <div style="height:8px;background:var(--bg-el);border-radius:4px;overflow:hidden"><div style="width:15%;height:100%;background:var(--ch3);border-radius:4px"></div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;border-radius:3px;background:var(--ch3);flex-shrink:0"></span>
+          <span style="font-size:14px;font-weight:600;flex:1">펀드</span>
+          <span style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums">3,518,518원</span>
+          <span style="font-size:13px;color:var(--t2);width:36px;text-align:right">15%</span>
         </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:var(--t1)">채권</span><span style="font-size:13px;color:var(--t2)">2,345,679원 (10%)</span></div>
-          <div style="height:8px;background:var(--bg-el);border-radius:4px;overflow:hidden"><div style="width:10%;height:100%;background:var(--ch4);border-radius:4px"></div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;border-radius:3px;background:var(--ch4);flex-shrink:0"></span>
+          <span style="font-size:14px;font-weight:600;flex:1">채권</span>
+          <span style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums">2,345,679원</span>
+          <span style="font-size:13px;color:var(--t2);width:36px;text-align:right">10%</span>
         </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:var(--t1)">가상자산</span><span style="font-size:13px;color:var(--t2)">1,172,845원 (5%)</span></div>
-          <div style="height:8px;background:var(--bg-el);border-radius:4px;overflow:hidden"><div style="width:5%;height:100%;background:var(--ch5);border-radius:4px"></div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;border-radius:3px;background:var(--ch5);flex-shrink:0"></span>
+          <span style="font-size:14px;font-weight:600;flex:1">가상자산</span>
+          <span style="font-size:14px;font-weight:700;font-variant-numeric:tabular-nums">1,172,845원</span>
+          <span style="font-size:13px;color:var(--t2);width:36px;text-align:right">5%</span>
         </div>
       </div>
 
@@ -1614,9 +1631,8 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
   <div class="modal-overlay" id="cModalDiag" onclick="closeModal(this)">
     <div class="modal-sheet" onclick="event.stopPropagation()">
       <div class="modal-handle"></div>
-      <div class="modal-ttl">수익 진단</div>
       <div class="diag-hdr" style="padding-bottom:16px">
-        <span class="sec-ttl" style="font-size:16px">이번 달 수익</span>
+        <span class="sec-ttl" style="font-size:18px">수익 진단</span>
         <div class="diag-hdr-val">
           <span class="diag-hdr-amt">+1,284,500원</span>
           <span class="diag-hdr-rate">(+8.42%)</span>
@@ -1624,8 +1640,8 @@ body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
       </div>
       <div class="diag-stats" style="margin-bottom:16px">
         <div class="diag-stat">
-          <div class="diag-stat-label">수익금</div>
-          <div class="diag-stat-val" style="color:var(--brand-t)">+1,284,500원</div>
+          <div class="diag-stat-label">또래비교</div>
+          <div class="diag-stat-val">상위 28%</div>
         </div>
         <div class="diag-stat">
           <div class="diag-stat-label">배당수익</div>
